@@ -1,8 +1,22 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import { drawMap } from './map.js';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* eased smooth scroll like the reference; driven by the GSAP ticker so scroll and parallax stay in step */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((t) => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+  document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) { e.preventDefault(); lenis.scrollTo(el); }
+  }));
+}
 
 /* ---------- featured trips (real Fancyellow offer, EUR per person) ---------- */
 const trips = [
@@ -79,41 +93,46 @@ function splitLines(el) {
     if (top === null || Math.abs(t - top) > 4) { lines.push([]); top = t; }
     lines[lines.length - 1].push(s.innerHTML);
   }
-  el.innerHTML = lines.map((l) => `<span class="ln"><span class="ln__i">${l.join(' ')}</span></span>`).join('');
-  return [...el.querySelectorAll('.ln__i')];
+  // each line is a mask; each word rises inside it, left to right
+  el.innerHTML = lines.map((l) => `<span class="ln">${l.map((w) => `<span class="wd">${w}</span>`).join(' ')}</span>`).join('');
+  return [...el.querySelectorAll('.wd')];
 }
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-Promise.all([document.fonts.ready, heroImgs[0].decode().catch(() => {})]).then(() => {
+/* intro, timed to the reference from navigation start: near-black until 0.25 s, page teal until
+   1.25 s, then the whole hero (photo, nav, type, button) appears together in one short fade */
+const sinceNav = () => performance.now() / 1000;
+if (!reduce) {
+  gsap.set('.hero__title, .hero__sub, .hero__cta, .nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 0 });
+  gsap.to('.intro-curtain', { backgroundColor: '#091b20', duration: 0.1, ease: 'none', delay: Math.max(0, 0.25 - sinceNav()) });
+  const atRevealTime = new Promise((r) => setTimeout(r, Math.max(0, 1.25 - sinceNav()) * 1000));
+  // hero photo ready (load event, not decode(): decode() can stay pending on a script-sized srcset image)
+  const heroReady = new Promise((r) => {
+    const img = heroImgs[0];
+    if (img.complete) r(); else { img.addEventListener('load', r, { once: true }); img.addEventListener('error', r, { once: true }); }
+  });
+  const safety = new Promise((r) => setTimeout(r, 3000));
+  Promise.all([atRevealTime, Promise.race([Promise.all([document.fonts.ready, heroReady]), safety])]).then(() => {
+    gsap.to('.intro-curtain', { autoAlpha: 0, duration: 0.2, ease: 'power1.out' });
+    gsap.to('.hero__title, .hero__sub, .hero__cta, .nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 1, duration: 0.2, ease: 'power1.out' });
+  });
+} else gsap.set('.intro-curtain', { autoAlpha: 0 });
+
+document.fonts.ready.then(() => {
   const heads = [...document.querySelectorAll('.split, .featured__head .h2, .combine .h2')];
-  const lineSets = heads.map((h) => ({ h, lines: splitLines(h) }));
+  const lineSets = heads.map((h) => ({ h, words: splitLines(h) }));
 
-  if (reduce) { gsap.set('.intro-curtain', { autoAlpha: 0 }); return; }
-
-  /* intro, timed to the reference: near-black, then page teal, then the hero arrives with its type
-     almost in place (short rise), the photo settles from a slight zoom, nav links stagger in */
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  gsap.set('.hero__img', { scale: 1.05 });
-  gsap.set('.hero__title, .hero__sub', { yPercent: 14, autoAlpha: 0 });
-  gsap.set('.hero__cta', { autoAlpha: 0, y: 12 });
-  gsap.set('.nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 0, y: -8 });
-  tl.to('.intro-curtain', { backgroundColor: '#091b20', duration: 0.25, ease: 'none' }, 0.35)
-    .to('.intro-curtain', { autoAlpha: 0, duration: 0.3, ease: 'power1.out' }, 1.15)
-    .to('.hero__img', { scale: 1, duration: 1.5, ease: 'power2.out' }, 1.15)
-    .to('.hero__title', { yPercent: 0, autoAlpha: 1, duration: 0.7 }, 1.2)
-    .to('.hero__sub', { yPercent: 0, autoAlpha: 1, duration: 0.7 }, 1.28)
-    .to('.hero__cta', { autoAlpha: 1, y: 0, duration: 0.6 }, 1.38)
-    .to('.nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.07 }, 1.3);
+  if (reduce) return;
 
   /* hero parallax: photo drifts, headline lifts away */
   gsap.to('.hero__back, .hero__front', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero__title, .hero__sub', { y: -200, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero__title, .hero__sub', { y: -140, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-  /* headings: line by line behind a mask */
-  for (const { h, lines } of lineSets) {
+  /* headings: words rise inside their line masks, left to right, starting as the heading enters */
+  for (const { h, words } of lineSets) {
     if (h.closest('.hero')) continue;
-    gsap.from(lines, { yPercent: 105, duration: 0.9, ease: 'power3.out', stagger: 0.09, scrollTrigger: { trigger: h, start: 'top 88%', once: true } });
+    gsap.from(words, { yPercent: 110, autoAlpha: 0, duration: 0.85, ease: 'power3.out', stagger: 0.05, scrollTrigger: { trigger: h, start: 'top 97%', once: true } });
   }
 
   /* images and blocks slide up */
