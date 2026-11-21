@@ -25,7 +25,8 @@ html { -webkit-text-size-adjust: 100%; font-size: calc(100vw / 1440 * 16); overf
 :root { --u: calc(100vw / 90); }
 @media (min-width: 1920px) { html { font-size: calc(100vw / 1920 * 16); } }
 @media (min-width: 768px) and (max-width: 1440px) and (max-height: 800px) { html { font-size: calc(100vw / 1440 * 14); } }
-@media (max-width: 767px) { html { font-size: calc(100vw / 375 * 16); } }
+/* phones: 16px at 375 like the reference, growing to at most 17px so tablets in the phone layout don't get oversized text */
+@media (max-width: 767px) { html { font-size: min(calc(100vw / 375 * 16), 17px); } }
 body {
   margin: 0;
   background: var(--bg);
@@ -387,7 +388,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .combine__list { padding-top: 1.5024rem; gap: 1.0216rem; }
   .combine__list li { font-size: 1.75rem; line-height: 1.75rem; letter-spacing: -0.0687em; }
   .combine__list i { width: 1.0817rem; }
-  .combine__steps { grid-template-columns: 11.7188rem 11.7188rem; grid-template-rows: 8.4135rem 9.6755rem 9.6755rem; height: auto; border-top: 0; }
+  .combine__steps { grid-template-columns: 1fr 1fr; grid-template-rows: 8.4135rem 9.6755rem 9.6755rem; height: auto; border-top: 0; }
   .combine__steps .lead { grid-column: 1 / -1; font-size: 1.125rem; line-height: 1.3498rem; letter-spacing: -0.0267em; padding: 0 var(--m); }
   .step { padding: 1.2019rem var(--m) 0; border-left: 1px solid rgba(255, 255, 255, 0.14); border-top: 1px solid rgba(255, 255, 255, 0.14); }
   .step:nth-of-type(odd) { border-left: 0; }
