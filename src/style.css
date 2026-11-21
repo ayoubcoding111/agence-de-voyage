@@ -143,6 +143,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .wm--lp { font-size: 0.85rem; font-weight: 700; white-space: nowrap; letter-spacing: -0.0441em; text-transform: lowercase; }
 .footer__addr { font-size: 0.875rem; line-height: 1.2rem; color: var(--muted); margin-top: 0.5rem; }
 .footer__made a { color: inherit; }
+.footer__addr a { color: inherit; transition: color 0.2s; }
+.footer__addr a:hover { color: var(--accent); }
+.footer__map svg { width: 0.625rem; height: 0.625rem; margin-left: 0.2rem; vertical-align: 0.05em; }
 .footer__made .mark { margin: 0 0.25rem; }
 @media (min-width: 1600px) { .about__foot { grid-template-columns: max-content 1fr; column-gap: 3rem; } .about__foot .muted { white-space: nowrap; } .about__foot .muted br { display: none; } }
 .indent { text-indent: 3.375rem; }
@@ -432,12 +435,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .footer { padding-top: 2.4038rem; }
   .footer__img { display: none; }
   .footer { padding-top: 0; }
-  .footer__main { grid-template-columns: 1fr; gap: 2.4038rem; padding: 4.5rem var(--m) 4.5rem; }
-  .footer__links li a { font-size: 2.4rem; line-height: 2.46rem; }
+  .footer__main { grid-template-columns: 1fr; gap: 0; padding: 4rem var(--m) 3.6rem; }
+  .footer__links { margin-top: 3.4rem; }
+  .footer__contact { margin-top: 3.6rem; gap: 0.6rem; }
+  .footer__addr { margin-top: 0.6rem; }
+  .footer__links li a { font-size: 2.8125rem; line-height: 3.1rem; }
+  .footer__links li + li { margin-top: 0; }
+  .footer__links i { width: 1.75rem; }
   .footer__bar { display: flex; flex-direction: column; height: auto; padding: 0; }
-  .footer__bar p { width: 100%; justify-content: center; text-align: center; height: 2.45rem; display: flex; align-items: center; }
+  .footer__bar p, .footer__bar p:first-child { width: 100%; justify-content: center; text-align: center; height: 2.6rem; display: flex; align-items: center; padding: 0; }
   .footer__bar p + p { border-top: 1px solid var(--line); }
-  .footer__bar p:first-child { padding: 0; border: 0; width: 100%; justify-content: center; }
+  .footer__bar p:first-child { border: 0; }
   .footer__made { padding: 0; order: 3; border-top: 1px solid var(--line); }
   .footer__legal { padding: 0; order: 2; gap: 1.0817rem; }
 }

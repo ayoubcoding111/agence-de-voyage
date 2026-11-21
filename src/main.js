@@ -200,9 +200,12 @@ document.fonts.ready.then(() => {
   gsap.utils.toArray('.stat__img, .about__img, .guide, .footer__img, .dest__card img').forEach((el, i) => {
     gsap.from(el, { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: once(el) });
   });
-  gsap.utils.toArray('.stat__top, .about__stats > *, .about__foot > *, .combine__list li, .step, .how__item, .guides__foot > * > *, .footer__main > *, .featured__head .muted, .dest__card span, .dest__card small, .footer__bar p').forEach((el) => {
+  gsap.utils.toArray('.stat__top, .about__stats > *, .about__foot > *, .combine__list li, .step, .how__item, .guides__foot > * > *, .footer__main > *, .featured__head .muted, .dest__card span, .dest__card small').forEach((el) => {
     gsap.from(el, { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') });
   });
+
+  /* footer bar sits at the very bottom, so it is triggered by the footer block above it (it may never reach 92%) */
+  gsap.from('.footer__bar p', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, scrollTrigger: once('.footer__main', 'top 85%') });
 
   /* trip cards: title, price, image from the left, details one by one, then the button scales in */
   gsap.utils.toArray('.card').forEach((card) => {
