@@ -126,6 +126,12 @@ document.fonts.ready.then(() => {
   gsap.utils.toArray('.stat__img img, .about__img img, .card__img img, .guide img, .footer__img img').forEach((img) => {
     gsap.from(img, { scale: 1.18, duration: 1.4, ease: 'power2.out', scrollTrigger: { trigger: img, start: 'top 92%', once: true } });
   });
+  /* nav: the link of the section in view turns orange */
+  document.querySelectorAll('.nav__links a').forEach((a) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    ScrollTrigger.create({ trigger: target, start: 'top 50%', end: 'bottom 50%', toggleClass: { targets: a, className: 'is-active' } });
+  });
   /* combine background parallax */
   gsap.fromTo('.combine__bg img', { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.combine', start: 'top bottom', end: 'bottom top', scrub: true } });
 });

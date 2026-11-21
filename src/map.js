@@ -43,10 +43,10 @@ export function drawMap(canvas) {
 
   // land
   ctx.beginPath(); path(land);
-  ctx.fillStyle = '#071418'; ctx.fill();
-  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(160, 200, 210, 0.1)'; ctx.stroke();
+  ctx.fillStyle = '#0a1a1f'; ctx.fill();
+  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(160, 200, 210, 0.06)'; ctx.stroke();
   ctx.beginPath(); path(borders);
-  ctx.lineWidth = 0.8; ctx.strokeStyle = 'rgba(160, 200, 210, 0.13)'; ctx.stroke();
+  ctx.lineWidth = 0.8; ctx.strokeStyle = 'rgba(160, 200, 210, 0.07)'; ctx.stroke();
 
   // fade top and bottom into the page colour
   const fadeTop = ctx.createLinearGradient(0, 0, 0, h * 0.42);
@@ -59,10 +59,10 @@ export function drawMap(canvas) {
   // city dots with glow
   for (const [lon, lat, s] of cities) {
     const [x, y] = proj([lon, lat]);
-    const r = s * 0.42;
-    const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 4);
-    glow.addColorStop(0, 'rgba(247, 148, 29, 0.3)'); glow.addColorStop(1, 'rgba(247, 148, 29, 0)');
-    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(x, y, r * 4, 0, Math.PI * 2); ctx.fill();
+    const r = s * 0.4;
+    const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 6);
+    glow.addColorStop(0, 'rgba(242, 154, 46, 0.32)'); glow.addColorStop(1, 'rgba(247, 148, 29, 0)');
+    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(x, y, r * 6, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#f7941d'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
   }
 }
