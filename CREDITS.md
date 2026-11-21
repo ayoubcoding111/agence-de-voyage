@@ -4,7 +4,7 @@ All photos are free to use commercially under the Unsplash License or the Pexels
 
 | File | Photographer | Source | Photo page URL | Place shown |
 |---|---|---|---|---|
-| hero.jpg | Djamel Ramdani | Pexels | https://www.pexels.com/photo/hoggar-27443487/ | Hoggar, Tamanrasset, Algeria |
+| hero.jpg | Mezidi Zineb | Unsplash | https://unsplash.com/photos/NxXTuVBlOnI | Algeria (exact place not stated on the page; tagged Algeria) |
 | tile-sahara.jpg | Mounir Abdi | Unsplash | https://unsplash.com/photos/a-large-sand-dune-in-the-middle-of-a-desert-M0036jK1Ra0 | Djanet, Algeria |
 | tile-culture.jpg | Ãbdøû Mâïstrø | Unsplash | https://unsplash.com/photos/an-empty-street-with-a-bench-in-the-middle-iRJwakbqriY | Beni Isguen, M'Zab (Ghardaia), Algeria |
 | tile-roman.jpg | Ondrej Bocek | Unsplash | https://unsplash.com/photos/ancient-roman-ruins-stand-in-the-desert-landscape-UvlCbhVgYo0 | Timgad, Algeria |
