@@ -3,12 +3,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import { drawMap } from './map.js';
+import { tripDetails } from './trips.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* eased smooth scroll like the reference; driven by the GSAP ticker so scroll and parallax stay in step */
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+  window.__lenis = lenis;
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -37,7 +39,7 @@ const ico = {
 };
 
 const grid = document.querySelector('.featured__grid');
-grid.innerHTML = trips.map((t) => `
+grid.innerHTML = trips.map((t, i) => `
   <article class="card">
     <div class="card__text">
       <h3 class="card__title">${t.title}</h3>
@@ -48,10 +50,58 @@ grid.innerHTML = trips.map((t) => `
         <div class="card__row"><span>${t.who}</span>${ico.ppl}</div>
         <div class="card__row"><span>Rated 4.8 <em>on Trustpilot</em></span><span class="stars">${ico.star.repeat(5)}</span></div>
       </div>
-      <a class="btn btn--secondary" href="#contact">Explore Trip <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+      <button class="btn btn--secondary" type="button" data-trip="${i}" aria-haspopup="dialog">Show Details <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></button>
     </div>
     <div class="card__img"><img src="/photos/web/${t.img}.jpg" alt="" loading="lazy" decoding="async" /></div>
   </article>`).join('');
+
+/* ---------- trip details panel ---------- */
+const panel = document.querySelector('.trip');
+const panelBody = panel.querySelector('.trip__body');
+let lastFocus = null;
+function openTrip(i) {
+  const t = trips[i], d = tripDetails[i];
+  const imgs = [`/photos/web/${t.img}.jpg`, ...d.gallery.map((g) => `/photos/trips/${g}.jpg`)];
+  panelBody.innerHTML = `
+    <div class="trip__gallery">${imgs.map((src, k) => `<figure class="trip__shot${k === 0 ? ' is-main' : ''}"><img src="${src}" alt="" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="this.closest('figure').remove()" /></figure>`).join('')}</div>
+    <div class="trip__text">
+      <h2 class="trip__title" id="trip-title">${t.title.replace(/<br>/g, ' ')}</h2>
+      <p class="trip__place">${t.place} <em>${t.len}</em></p>
+      <p class="trip__intro">${d.intro}</p>
+      <div class="trip__prices">${d.prices.map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+      <h3 class="trip__h">Itinerary</h3>
+      <ol class="trip__days">${d.days.map(([k, v]) => `<li><b>${k}</b><span>${v}</span></li>`).join('')}</ol>
+      <h3 class="trip__h">Included</h3>
+      <ul class="trip__list">${d.included.map((x) => `<li>${x}</li>`).join('')}</ul>
+      <h3 class="trip__h">Good to know</h3>
+      <ul class="trip__list trip__list--notes">${d.notes.map((x) => `<li>${x}</li>`).join('')}</ul>
+      <div class="trip__cta">
+        <a class="btn btn--primary" href="mailto:reservation@fancyellow.com?subject=${encodeURIComponent('Trip enquiry: ' + t.title.replace(/<br>/g, ' '))}">Book by Email <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+        <a class="btn btn--secondary" href="https://api.whatsapp.com/send?phone=213542840682">Ask on WhatsApp <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+      </div>
+    </div>`;
+  lastFocus = document.activeElement;
+  panel.hidden = false;
+  document.documentElement.classList.add('trip-open');
+  window.__lenis?.stop();
+  panelBody.scrollTop = 0;
+  gsap.fromTo(panel.querySelector('.trip__scrim'), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power1.out' });
+  gsap.fromTo(panel.querySelector('.trip__sheet'), { xPercent: 100 }, { xPercent: 0, duration: 0.6, ease: 'power3.out' });
+  gsap.from(panelBody.querySelectorAll('.trip__shot, .trip__text > *'), { y: 24, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.04, delay: 0.2 });
+  panel.querySelector('.trip__close').focus();
+}
+function closeTrip() {
+  gsap.to(panel.querySelector('.trip__scrim'), { opacity: 0, duration: 0.3 });
+  gsap.to(panel.querySelector('.trip__sheet'), { xPercent: 100, duration: 0.45, ease: 'power3.in', onComplete: () => {
+    panel.hidden = true;
+    document.documentElement.classList.remove('trip-open');
+    window.__lenis?.start();
+    lastFocus?.focus();
+  } });
+}
+grid.addEventListener('click', (e) => { const b = e.target.closest('[data-trip]'); if (b) openTrip(+b.dataset.trip); });
+panel.addEventListener('click', (e) => { if (e.target.closest('.trip__close, .trip__scrim')) closeTrip(); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) closeTrip(); });
 
 /* ---------- hero framing + depth ---------- */
 // Photo: Assekrem road, Hoggar, 3200x2323: two granite pinnacles (apexes at photo rows 772 / 780) under a
@@ -203,6 +253,9 @@ document.fonts.ready.then(() => {
   gsap.utils.toArray('.stat__top, .about__stats > *, .about__foot > *, .combine__list li, .step, .how__item, .guides__foot > * > *, .footer__main > *, .featured__head .muted, .dest__card span, .dest__card small').forEach((el) => {
     gsap.from(el, { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') });
   });
+
+  /* press band fades up */
+  gsap.from('.press', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', scrollTrigger: once('.press') });
 
   /* office map: text rises, map slides in from the left */
   gsap.from('.office__info > *', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08, scrollTrigger: once('.office') });
