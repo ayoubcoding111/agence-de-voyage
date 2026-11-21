@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.vite/
+# local run state: reference screenshots and working notes, never committed
+cook/
+cook-archive/
+.claude/
+*.log
