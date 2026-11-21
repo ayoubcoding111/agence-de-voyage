@@ -21,8 +21,7 @@
 html { -webkit-text-size-adjust: 100%; font-size: calc(100vw / 1440 * 16); overflow-x: clip; }
 @media (min-width: 1440px) { html { font-size: 16px; } }
 /* --u: layout unit for blocks that keep growing with the window above 1440 (full-bleed band, map, people grid), like the reference */
-:root { --u: 1rem; }
-@media (min-width: 1441px) { :root { --u: calc(100vw / 90); } }
+:root { --u: calc(100vw / 90); }
 @media (min-width: 1920px) { html { font-size: calc(100vw / 1920 * 16); } }
 @media (min-width: 768px) and (max-width: 1440px) and (max-height: 800px) { html { font-size: calc(100vw / 1440 * 14); } }
 @media (max-width: 767px) { html { font-size: calc(100vw / 375 * 16); } }
@@ -93,14 +92,18 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* photo grade, tuned with color_check.mjs against the reference hero */
 .hero__img { filter: var(--hero-grade, none); }
 /* sky toward the reference's deep blue teal (colour blend keeps the cloud detail), fading out at the apexes */
-.hero__sky { position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: color;
-  background: linear-gradient(180deg, rgba(48, 100, 124, 0.95) 0, rgba(74, 122, 140, 0.88) var(--sky-bot, 40%), rgba(96, 136, 150, 0.85) 100%); }
+.hero__sky { position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: color; isolation: auto;
+  background: linear-gradient(180deg, rgba(52, 96, 114, 1) 0, rgba(76, 116, 130, 0.95) var(--sky-bot, 40%), rgba(96, 130, 140, 0.9) 100%); }
+.hero__sky::after { content: ''; position: absolute; inset: 0; mix-blend-mode: multiply; background: linear-gradient(180deg, rgba(150, 168, 172, 1) 0, rgba(190, 200, 200, 1) 100%); }
 .hero__back::before { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; mix-blend-mode: multiply;
   background: radial-gradient(60% 55% at 100% 0%, rgba(70, 110, 125, 0.9) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(50% 50% at 0% 0%, rgba(110, 135, 145, 0.6) 0%, rgba(255, 255, 255, 0) 100%); }
 /* foreground depth of field: a pre-blurred copy of the photo (static file, no live blur), masked to the bottom */
 /* front: shade the rock behind the subtitle and button (white text needs a darker ground, like the reference's hill), warm the bottom */
 .hero__front::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: multiply;
   background: radial-gradient(38% 22% at 50% 57%, rgba(90, 62, 40, 0.95) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(150, 110, 75, 1) calc(var(--sky-bot, 40%) + 3rem), rgba(190, 140, 90, 1) 75%, rgba(225, 175, 120, 1) 100%); }
+/* lift the shadowed foreground to the reference's warm gold */
+.hero__front::before { content: ''; position: absolute; inset: 0; z-index: 4; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 58%, rgba(120, 66, 8, 0.75) 80%, rgba(150, 86, 14, 0.85) 100%); }
 .hero__blur { z-index: 1; -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 66%, #000 82%); mask-image: linear-gradient(180deg, transparent 0%, transparent 66%, #000 82%); }
 .hero__content { position: absolute; inset: 0; text-align: center; }
 .hero__title { z-index: 2; position: absolute; left: 2.5rem; right: 2.5rem; top: calc(50% - 10.875rem); font-size: 11.875rem; line-height: 11.875rem; font-weight: 600; letter-spacing: -10px; }
@@ -113,7 +116,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .head .label { padding-top: 0; height: 1.3125rem; }
 
 /* ---------- tours (stat) ---------- */
-.stat { padding-bottom: 7.5rem; }
+.stat { padding-bottom: 6.1875rem; }
+.stat__row { border-bottom: 1px solid var(--line); }
+.stat__row .stat__item { padding-bottom: 1.25rem; }
 .stat__row { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 4.0625rem; }
 .stat__item { padding: 2.5rem var(--m) 0; }
 .stat__item + .stat__item { border-left: 1px solid var(--line); }
@@ -127,11 +132,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 4rem var(--m) 0; }
 .about__img { aspect-ratio: 668 / 544; overflow: hidden; }
 .about__body { display: flex; flex-direction: column; }
+.about__body .lead { max-width: 36rem; }
 .indent { text-indent: 3.375rem; }
 .about__stats { display: grid; grid-template-columns: 21.625rem 1fr; margin-top: 2.4375rem; }
 .about__stats b { display: block; font-size: 2.8125rem; line-height: 2.8125rem; font-weight: 600; letter-spacing: -3px; }
 .about__stats span { display: block; margin-top: 1.25rem; font-size: 1.125rem; line-height: 1.4625rem; letter-spacing: -0.5px; }
-.about__foot { display: grid; grid-template-columns: 21.625rem 1fr; margin-top: auto; padding-bottom: 1.875rem; align-items: center; }
+.about__foot { display: grid; grid-template-columns: 21.625rem minmax(0, 24rem); margin-top: auto; padding-bottom: 1.875rem; align-items: center; }
 .about__logos { display: flex; justify-content: space-between; align-items: center; padding-right: 0.5rem; }
 .wm { display: inline-flex; align-items: center; gap: 0.3125rem; height: 2.125rem; color: #c4cbcc; opacity: 0.8; white-space: nowrap; }
 .wm--tp { font-size: 1rem; font-weight: 700; letter-spacing: -0.6px; }
@@ -144,7 +150,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* ---------- featured ---------- */
 .featured { padding-top: 5rem; padding-bottom: 5rem; }
-.featured__head { display: grid; grid-template-columns: 43.5rem 1fr; padding: 0 var(--m); align-items: center; }
+.featured__head { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.75rem; padding: 0 var(--m); align-items: center; }
 .featured__head .muted { padding-top: 0.25rem; }
 .featured__grid { display: grid; grid-template-columns: 1fr 1fr; margin-top: 4rem; }
 .card { display: grid; grid-template-columns: 18.75rem 18.75rem; gap: 2.5rem; padding: 2.5rem var(--m); border-bottom: 1px solid var(--line); }
@@ -169,7 +175,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .combine__bg img { filter: contrast(1.3) brightness(0.76); }
 .combine__tint { position: absolute; inset: 0; z-index: 1; mix-blend-mode: color; background: linear-gradient(180deg, #b88c4c 0%, #c0904c 40%, #8a6430 75%, #463420 100%); opacity: 1; }
 .combine__bg::after { z-index: 2; }
-.combine__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 14, 6, 0.3) 0%, rgba(20, 14, 6, 0.06) 30%, rgba(34, 22, 8, 0.45) 62%, rgba(18, 18, 14, 0.82) 92%, rgba(9, 27, 32, 0.92) 100%); }
+.combine__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 14, 6, 0.3) 0%, rgba(20, 14, 6, 0.06) 30%, rgba(34, 22, 8, 0.5) 58%, rgba(14, 18, 16, 0.86) 84%, rgba(9, 27, 32, 0.95) 100%); }
 .combine__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding-top: 5rem; }
 .combine__inner > .h2 { padding: 0 var(--m); }
 .combine__list { padding: 2.1875rem var(--m) 0; display: flex; flex-direction: column; gap: 0.5rem; }
@@ -210,13 +216,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .guide figcaption { position: absolute; z-index: 1; left: 3.5rem; bottom: 3.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
 .guide b { font-size: 1.125rem; line-height: 1.4625rem; font-weight: 500; letter-spacing: -0.5px; }
 .guide span { font-size: 0.875rem; line-height: 1.1375rem; font-weight: 400; letter-spacing: -0.6px; }
-.guides__side { position: relative; padding: 2.5rem 2.5rem 0; display: flex; flex-direction: column; }
+.guides__side { position: relative; padding: 2.5rem 2.5rem 3.6rem; display: flex; flex-direction: column; }
 .guides__side .h2 { margin-top: 1.125rem; }
 .guides__plus { display: flex; gap: 0; margin-top: 10rem; }
 .guides__plus i { position: relative; width: 20rem; height: 1rem; }
 .guides__plus i::before, .guides__plus i::after { content: ''; position: absolute; left: 0; top: 0.4375rem; width: 1rem; height: 1.5px; background: #fff; }
 .guides__plus i::after { transform: rotate(90deg); }
-.guides__foot { display: grid; grid-template-columns: 20rem 18.75rem; margin-top: 10.625rem; }
+.guides__foot { display: grid; grid-template-columns: 20rem 18.75rem; margin-top: auto; }
 .guides__foot h3 { font-size: 1.125rem; line-height: 1.4625rem; font-weight: 500; letter-spacing: -0.5px; }
 .guides__foot p:not(.lead) { margin-top: 1rem; font-size: 1rem; line-height: 1.3rem; color: var(--muted); letter-spacing: -0.5px; padding-right: 2.5rem; }
 .guides__foot .lead { margin-top: -0.625rem; }
@@ -238,7 +244,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .footer__legal { display: flex; gap: 1.5rem; padding-right: var(--m); }
 
 /* ---------- photo grade: warm, calm, matched to the reference palette ---------- */
-.stat__img img, .card__img img, .dest__card img { filter: sepia(0.16) saturate(0.92) contrast(1.1) brightness(0.94); }
+.stat__img img, .card__img img, .dest__card img { filter: sepia(0.24) saturate(1) contrast(1.12) brightness(0.86); }
 /* about photo: pushed toward the reference's pastel pink-mauve haze */
 .about__img { position: relative; }
 .about__img img { filter: saturate(0.7) hue-rotate(-20deg) brightness(1.22) contrast(0.92); }
@@ -284,6 +290,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .stat__row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-top: 1.8029rem; border-top: 0; padding: 0 var(--m); gap: 2.4639rem; scrollbar-width: none; }
   .stat__item { flex: 0 0 18.6899rem; padding: 1.4423rem 0 0; scroll-snap-align: start; }
   .stat__item + .stat__item { border-left: 0; }
+  .stat__row { border-bottom: 0; }
+  .stat__row .stat__item { padding-bottom: 0; }
   .stat__top { height: 2.3438rem; }
   .stat__top h3 { font-size: 1.125rem; line-height: 1.3498rem; }
   .stat__top span { font-size: 0.875rem; line-height: 1.1376rem; font-weight: 400; letter-spacing: -0.6px; }

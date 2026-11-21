@@ -78,6 +78,13 @@ function fitFront() {
   const pts = SKYLINE.map(([x, y]) => `L${(x * s - ox).toFixed(1)} ${(y * s - oy).toFixed(1)}`).join(' ');
   front.style.clipPath = `path('M${(-ox).toFixed(1)} ${(ih - oy + 50).toFixed(1)} ${pts} L${(iw - ox).toFixed(1)} ${(ih - oy + 50).toFixed(1)} Z')`;
   hero.style.setProperty('--sky-bot', `${(HERO.apexY * s - oy).toFixed(1)}px`);
+  // foreground depth of field in hero pixels: sharp to 64% of the hero height, fully soft from 84%
+  // (the image is taller than the hero, so a percentage mask on the image itself would start off-screen)
+  const blur = document.querySelector('.hero__blur');
+  if (blur) {
+    const m = `linear-gradient(180deg, transparent ${(0.64 * h + oy).toFixed(0)}px, #000 ${(0.84 * h + oy).toFixed(0)}px)`;
+    blur.style.webkitMaskImage = m; blur.style.maskImage = m;
+  }
 }
 fitFront();
 addEventListener('resize', fitFront);
