@@ -52,26 +52,32 @@ grid.innerHTML = trips.map((t) => `
     <div class="card__img"><img src="/photos/web/${t.img}.jpg" alt="" loading="lazy" decoding="async" /></div>
   </article>`).join('');
 
-/* ---------- hero framing ---------- */
-// Photo: Setif high plains, 3200x1800: teal sky, flat-topped ridge in a fog band, village, golden stubble field.
-// Cover-fit, then zoom and anchor so the fog band rises behind the headline, the village sits under the
-// subtitle and the field fills the bottom third, like the reference's plain.
+/* ---------- hero framing + depth ---------- */
+// Photo: Assekrem road, Hoggar, 3200x2323: two granite pinnacles (apexes at photo rows 772 / 780) under a
+// blue sky, stony valley in front. The photo is drawn twice: the back copy shows the sky behind the
+// headline, the front copy is clipped along the traced skyline, so the pinnacle tips sit in front of
+// the bottom of the letters (the reference does the same with its hill and "Travel").
 const hero = document.querySelector('.hero');
 const heroImgs = [...document.querySelectorAll('.hero__img')];
-const HERO = { iw: 3200, ih: 1800, zoom: 1.2, posX: 0.5, posY: 1 };
+const front = document.querySelector('.hero__front');
+const HERO = { iw: 3200, ih: 2323, apexY: 776 };
+// traced with cook/harness/skyline.mjs (photo px)
+const SKYLINE = [[0,1004],[80,1036],[160,1040],[240,1068],[320,1096],[400,1120],[480,1160],[560,1148],[600,1076],[680,1088],[760,1116],[800,1112],[840,1072],[880,996],[920,940],[960,848],[1000,788],[1040,772],[1080,772],[1120,796],[1160,832],[1200,868],[1240,900],[1280,928],[1360,940],[1400,948],[1440,984],[1480,1028],[1520,1068],[1560,1084],[1600,1076],[1636,964],[1676,896],[1716,816],[1756,780],[1796,780],[1836,816],[1876,876],[1916,924],[1956,1064],[1996,1140],[2036,1231],[2116,1271],[2196,1299],[2276,1263],[2356,1215],[2436,1152],[2476,1104],[2516,1088],[2556,1100],[2636,1163],[2716,1235],[2796,1267],[2876,1255],[2956,1219],[3036,1171],[3116,1124],[3200,1072]];
 function fitFront() {
   const mobile = innerWidth < 768;
   const w = hero.clientWidth, h = hero.clientHeight;
-  const zoom = mobile ? 1.05 : HERO.zoom;
-  const s = Math.max(w / HERO.iw, h / HERO.ih) * zoom;
+  const cover = Math.max(w / HERO.iw, h / HERO.ih);
+  // desktop: zoom 1.22 over width fit, apexes at 44% of the hero height (just above the headline baseline)
+  // mobile: scale so the apexes land at 40% with the photo top at the hero top
+  const apexFrac = mobile ? 0.42 : 0.455;
+  const s = mobile ? Math.max(cover, (apexFrac * h) / HERO.apexY) : Math.max(cover, (w / HERO.iw) * 1.22);
   const iw = HERO.iw * s, ih = HERO.ih * s;
-  const ox = (iw - w) * (mobile ? 0.42 : HERO.posX), oy = (ih - h) * HERO.posY;
+  const ox = (iw - w) * 0.5;
+  const oy = Math.min(Math.max(HERO.apexY * s - apexFrac * h, 0), ih - h);
   for (const img of heroImgs) Object.assign(img.style, { width: `${iw}px`, height: `${ih}px`, left: `${-ox}px`, top: `${-oy}px` });
-  // photo row -> hero px, for the grade layers (fog band burn sits on rows 790 to 1060)
-  const row = (y) => `${(y * s - oy).toFixed(1)}px`;
-  hero.style.setProperty('--fog-top', row(760));
-  hero.style.setProperty('--fog-bot', row(1080));
-  hero.style.setProperty('--field-top', row(1280));
+  const pts = SKYLINE.map(([x, y]) => `L${(x * s - ox).toFixed(1)} ${(y * s - oy).toFixed(1)}`).join(' ');
+  front.style.clipPath = `path('M${(-ox).toFixed(1)} ${(ih - oy + 50).toFixed(1)} ${pts} L${(iw - ox).toFixed(1)} ${(ih - oy + 50).toFixed(1)} Z')`;
+  hero.style.setProperty('--sky-bot', `${(HERO.apexY * s - oy).toFixed(1)}px`);
 }
 fitFront();
 addEventListener('resize', fitFront);
