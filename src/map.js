@@ -56,13 +56,13 @@ export function drawMap(canvas) {
   fadeBot.addColorStop(0, 'rgba(9, 27, 32, 0)'); fadeBot.addColorStop(1, 'rgba(9, 27, 32, 1)');
   ctx.fillStyle = fadeBot; ctx.fillRect(0, h * 0.82, w, h * 0.18);
 
-  // city dots with glow
-  for (const [lon, lat, s] of cities) {
-    const [x, y] = proj([lon, lat]);
-    const r = Math.max(3.5, s * 0.5);
-    const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
-    glow.addColorStop(0, 'rgba(245, 160, 40, 0.42)'); glow.addColorStop(1, 'rgba(247, 148, 29, 0)');
-    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(x, y, r * 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#f7941d'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  // city dots are DOM elements (positioned in % of the canvas) so they can pop in and pulse
+  const layer = canvas.parentElement.querySelector('.dest__dots');
+  if (layer) {
+    layer.innerHTML = cities.map(([lon, lat, s]) => {
+      const [x, y] = proj([lon, lat]);
+      const r = Math.max(3.5, s * 0.5);
+      return `<span class="dot" style="left:${(100 * x / w).toFixed(2)}%;top:${(100 * y / h).toFixed(2)}%;--r:${(2 * r).toFixed(1)}px"><i class="dot__glow"></i><i class="dot__core"></i></span>`;
+    }).join('');
   }
 }

@@ -23,3 +23,4 @@ All photos are free to use commercially under the Unsplash License or the Pexels
 | guide-2.jpg | Khaled Hamoud | Pexels | https://www.pexels.com/photo/elderly-woman-in-traditional-clothes-sitting-on-ground-6547301/ | Ghassira, Batna Province, Algeria |
 | guide-3.jpg | Mohamed elamine M'siouri | Pexels | https://www.pexels.com/photo/man-wearing-yellow-hijab-2097475/ | Algeria (place not stated) |
 | guide-4.jpg | Wakar Hamdi Photographie | Pexels | https://www.pexels.com/photo/beautiful-woman-in-traditional-wear-6171129/ | Woman in traditional dress (place not stated on page) |
+| card-7.jpg | Azzedine Rouichi | Unsplash | https://unsplash.com/photos/Mx_Xw0KoxJo | Ahaggar, Tamanrasset, Algeria |

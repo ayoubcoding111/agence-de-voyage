@@ -8,6 +8,7 @@
   <style>html{background:#111}.intro-curtain{position:fixed;inset:0;z-index:100;background:#111;animation:curtain-teal .1s linear .25s forwards}@keyframes curtain-teal{to{background:#091b20}}</style>
   <script>if (location.search.includes('clean')) document.documentElement.classList.add('is-clean');</script>
   <link rel="preload" as="image" fetchpriority="high" href="/photos/hero-assekrem-2560.jpg" imagesrcset="/photos/hero-assekrem-1280.jpg 1280w, /photos/hero-assekrem-2560.jpg 2560w, /photos/hero-assekrem.jpg 3200w" imagesizes="(max-width: 767px) 350vw, 125vw" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
@@ -33,7 +34,7 @@
       </div>
       <div class="hero__content">
         <h1 class="hero__title">Algeria</h1>
-        <p class="hero__sub">Your way. Book city tours, Roman <br />sites, and Sahara trips &nbsp;in one place.</p>
+        <p class="hero__sub">Your way. Private tours, Roman sites <br />and Sahara trips, visa letter included.</p>
       </div>
       <div class="hero__front" aria-hidden="true">
         <img src="/photos/hero-assekrem-2560.jpg" srcset="/photos/hero-assekrem-1280.jpg 1280w, /photos/hero-assekrem-2560.jpg 2560w, /photos/hero-assekrem.jpg 3200w" sizes="(max-width: 767px) 350vw, 125vw" alt="" class="hero__img" />
@@ -50,7 +51,7 @@
       </div>
       <div class="stat__row line-top">
         <article class="stat__item">
-          <div class="stat__top"><h3>Sahara Trips</h3><span>/ 4 Oases</span></div>
+          <div class="stat__top"><h3>Sahara Trips</h3><span>/ 3 Trips</span></div>
           <div class="stat__img"><img src="/photos/web/tile-sahara.jpg" alt="Sand dunes in the Algerian Sahara" loading="lazy" decoding="async" /></div>
         </article>
         <article class="stat__item">
@@ -73,17 +74,17 @@
       <div class="about__grid">
         <div class="about__img"><img src="/photos/web/about.jpg" alt="Sunset over Algeria" loading="lazy" decoding="async" /></div>
         <div class="about__body">
-          <p class="lead indent">Fancyellow is an Algiers travel agency and tour operator that plans private trips across Algeria, with English-speaking guides, private drivers, and the invitation letter for your visa, all arranged for you in a single booking.</p>
+          <p class="lead indent">Fancyellow is an Algiers tour operator with a strong sense of community, taking travellers to unusual places across Algeria with English-speaking guides, certified private drivers and the invitation letter for your visa.</p>
           <div class="about__stats">
             <div><b>4.8</b><span>Trustpilot <br />rating</span></div>
             <div><b>58</b><span>Traveller <br />reviews</span></div>
           </div>
           <div class="about__foot">
-            <p class="muted">Trusted by travellers looking for the real <br />Algeria, not a package tour.</p>
+            <p class="muted">As featured in the travel press, <br />from Washington to London.</p>
             <div class="about__logos">
-              <span class="wm wm--tp"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.2l2.6 6.1 6.6.5-5 4.3 1.6 6.5L10 15.1l-5.8 3.5 1.6-6.5-5-4.3 6.6-.5z"/></svg>Trustpilot</span>
-              <span class="wm wm--serif"><svg viewBox="0 0 22 16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 2l9.5 7 9.5-7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>visa letter</span>
-              <span class="wm wm--badge"><b>EN</b>guides</span>
+              <span class="wm wm--wp">The Washington Post</span>
+              <span class="wm wm--ng"><i></i><span>National<br />Geographic</span></span>
+              <span class="wm wm--lp">lonely planet</span>
             </div>
           </div>
         </div>
@@ -94,7 +95,7 @@
     <section class="featured section" id="trips">
       <div class="featured__head">
         <h2 class="h2">Featured Trips</h2>
-        <p class="muted">Private routes with an English-speaking guide, a driver, <br />and your invitation letter, planned around your dates.</p>
+        <p class="muted">Prices per person for a solo traveller, lower in two <br />or three. Guide, transport and visa letter included.</p>
       </div>
       <div class="featured__grid line-top"></div>
     </section>
@@ -110,10 +111,10 @@
           <li><i>+</i>Visa Letter</li>
         </ul>
         <div class="combine__steps line-top">
-          <p class="lead">Combine tours, transfers and hotels into one private itinerary. Invitation letter and visa support come with every multi-day trip.</p>
+          <p class="lead">Add a VIP airport transfer from 20 euros per car, door to door with a transfer guide. Invitation letter and visa support come with every trip.</p>
           <div class="step"><b class="count">01</b><small class="count">Step</small><span>Choose <br />Your Trip</span></div>
           <div class="step"><b class="count">02</b><small class="count">Step</small><span>Get Your <br />Invitation Letter</span></div>
-          <div class="step"><b class="count">03</b><small class="count">Step</small><span>Add Transfers &amp; <br />Hotels</span></div>
+          <div class="step"><b class="count">03</b><small class="count">Step</small><span>Add Airport <br />Transfer</span></div>
           <div class="step"><b class="count">04</b><small class="count">Step</small><span>Meet <br />Your Guide</span></div>
         </div>
       </div>
@@ -122,17 +123,18 @@
     <!-- DESTINATIONS -->
     <section class="dest section">
       <canvas class="dest__map" aria-hidden="true"></canvas>
+      <div class="dest__dots" aria-hidden="true"></div>
       <div class="head">
         <p class="label"><svg class="mark" viewBox="0 0 20 20"><use href="#mark" /></svg>Regions</p>
         <div>
           <h2 class="h2 split">Explore by Destination</h2>
-          <p class="lead dest__copy">Discover your next adventure! <br />Choose from the Roman cities of the east with 4 sites, <br />the coast and capital with 7 city tours, and the Sahara <br />featuring Taghit, Timimoun and Djanet.</p>
+          <p class="lead dest__copy">Discover your next adventure! <br />Choose from Roman Djemila and Timgad in the east, <br />Algiers and the coast with 7 city tours, and the Sahara <br />from Ghardaia to Djanet and the Hoggar.</p>
         </div>
       </div>
       <div class="dest__cards">
         <a class="dest__card"><span>East</span><small>/ 4 Roman Sites</small><img src="/photos/web/tile-roman.jpg" alt="" loading="lazy" decoding="async" /></a>
         <a class="dest__card"><span>Coast</span><small>/ 7 City Tours</small><img src="/photos/web/card-6.jpg" alt="" loading="lazy" decoding="async" /></a>
-        <a class="dest__card"><span>Sahara</span><small>/ 4 Oases</small><img src="/photos/web/card-1.jpg" alt="" loading="lazy" decoding="async" /></a>
+        <a class="dest__card"><span>Sahara</span><small>/ 3 Trips</small><img src="/photos/web/card-1.jpg" alt="" loading="lazy" decoding="async" /></a>
       </div>
     </section>
 
@@ -153,18 +155,18 @@
     <!-- GUIDES -->
     <section class="guides" id="guides">
       <div class="guides__grid">
-        <figure class="guide"><img src="/photos/web/guide-4.jpg" alt="Woman in traditional Amazigh dress" loading="lazy" decoding="async" /><figcaption><b>Traditional Dress</b><span>Amazigh Style</span></figcaption></figure>
-        <figure class="guide"><img src="/photos/web/guide-1.jpg" alt="Tuareg man in Adrar" loading="lazy" decoding="async" /><figcaption><b>Adrar</b><span>Algerian Sahara</span></figcaption></figure>
-        <figure class="guide"><img src="/photos/web/guide-2.jpg" alt="Woman in Ghassira, Batna" loading="lazy" decoding="async" /><figcaption><b>Ghassira</b><span>Aures, Batna</span></figcaption></figure>
-        <figure class="guide"><img src="/photos/web/guide-3.jpg" alt="Man wearing a yellow chech" loading="lazy" decoding="async" /><figcaption><b>Yellow Chech</b><span>Algeria</span></figcaption></figure>
+        <figure class="guide"><img src="/photos/web/guide-4.jpg" alt="Woman in traditional Amazigh dress" loading="lazy" decoding="async" /><figcaption><b>Traditional Dress</b><span>Amazigh Style</span></figcaption><div class="guide__info"><span class="guide__loc"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 13s4.2-4 4.2-7.2A4.2 4.2 0 0 0 2.8 5.8C2.8 9 7 13 7 13z"/><circle cx="7" cy="5.8" r="1.5"/></svg>Kabylie and the Aures</span><p>Amazigh dress and silver jewellery are worn for weddings and feasts in the mountain villages of the north.</p><dl><div><dt>Tour</dt><dd>Constantine city tour</dd></div><div><dt>From</dt><dd>€120</dd></div></dl></div></figure>
+        <figure class="guide"><img src="/photos/web/guide-1.jpg" alt="Tuareg man in Adrar" loading="lazy" decoding="async" /><figcaption><b>Adrar</b><span>Algerian Sahara</span></figcaption><div class="guide__info"><span class="guide__loc"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 13s4.2-4 4.2-7.2A4.2 4.2 0 0 0 2.8 5.8C2.8 9 7 13 7 13z"/><circle cx="7" cy="5.8" r="1.5"/></svg>Adrar and Timimoun</span><p>Red ksour, palm groves and Tuareg hospitality on the edge of the Grand Erg Occidental.</p><dl><div><dt>Tour</dt><dd>Timimoun day tour</dd></div><div><dt>From</dt><dd>€150</dd></div></dl></div></figure>
+        <figure class="guide"><img src="/photos/web/guide-2.jpg" alt="Woman in Ghassira, Batna" loading="lazy" decoding="async" /><figcaption><b>Ghassira</b><span>Aures, Batna</span></figcaption><div class="guide__info"><span class="guide__loc"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 13s4.2-4 4.2-7.2A4.2 4.2 0 0 0 2.8 5.8C2.8 9 7 13 7 13z"/><circle cx="7" cy="5.8" r="1.5"/></svg>Aures mountains, Batna</span><p>Canyon villages near Timgad, on the road between the Roman cities of the east.</p><dl><div><dt>Trip</dt><dd>7 days, Roman Algeria</dd></div><div><dt>From</dt><dd>€880</dd></div></dl></div></figure>
+        <figure class="guide"><img src="/photos/web/guide-3.jpg" alt="Man wearing a yellow chech" loading="lazy" decoding="async" /><figcaption><b>Yellow Chech</b><span>Algeria</span></figcaption><div class="guide__info"><span class="guide__loc"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 13s4.2-4 4.2-7.2A4.2 4.2 0 0 0 2.8 5.8C2.8 9 7 13 7 13z"/><circle cx="7" cy="5.8" r="1.5"/></svg>The Hoggar, Tamanrasset</span><p>The chech protects from sun and sand on the drive up to the Assekrem plateau.</p><dl><div><dt>Trip</dt><dd>3 days, Tamanrasset</dd></div><div><dt>From</dt><dd>€680</dd></div></dl></div></figure>
       </div>
       <div class="guides__side">
         <p class="label"><svg class="mark" viewBox="0 0 20 20"><use href="#mark" /></svg>People of Algeria</p>
         <h2 class="h2 split">The faces you meet <br />on every trip</h2>
         <div class="guides__plus"><i></i><i></i></div>
         <div class="guides__foot">
-          <div><h3>Your Trip, Our Guides</h3><p>Each guide speaks English and knows the history behind every street, ruin and oasis on your route.</p></div>
-          <p class="lead">At Fancyellow we've brought together guides, drivers and partners across Algeria, from the Casbah to the Sahara.</p>
+          <div><h3>Your Trip, Our Guides</h3><p>Honest prices, reliable partners and full support, from choosing a tour to what to pack.</p></div>
+          <p class="lead">Founded by Omar Elfarouk Zahafi. With endless happiness and endless discovery, everyone should be able to travel.</p>
         </div>
       </div>
     </section>
@@ -175,11 +177,11 @@
       <div class="footer__main">
         <a class="nav__logo" href="#top"><svg class="mark" viewBox="0 0 20 20"><use href="#mark" /></svg>Fancyellow</a>
         <ul class="footer__links"><li><a href="#trips"><i>+</i>Trips</a></li><li><a href="#guides"><i>+</i>Guides</a></li></ul>
-        <div class="footer__contact"><a href="tel:+213542840682">+213 542 84 06 82</a><a href="mailto:reservation@fancyellow.com">reservation@fancyellow.com</a></div>
+        <div class="footer__contact"><a href="https://api.whatsapp.com/send?phone=213542840682">+213 542 84 06 82</a><a href="mailto:reservation@fancyellow.com">reservation@fancyellow.com</a><span class="footer__addr">20 avenue Abdelkader, Algiers <br />Office +213 23 69 84 41</span></div>
       </div>
       <div class="footer__bar line-top">
         <p>©All Rights Reserved. Fancyellow, 2026</p>
-        <p class="footer__made">Algiers &nbsp;<svg class="mark" viewBox="0 0 20 20"><use href="#mark" /></svg> Algeria</p>
+        <p class="footer__made"><a href="https://www.facebook.com/FancYellow/">Facebook</a><svg class="mark" viewBox="0 0 20 20"><use href="#mark" /></svg><a href="https://www.instagram.com/fancyellow_travel_algeria/">Instagram</a><svg class="mark" viewBox="0 0 20 20"><use href="#mark" /></svg><a href="https://twitter.com/FancyellowTrvl">X</a></p>
         <p class="footer__legal"><a href="#">Terms and Conditions</a><a href="#">Privacy Policy</a></p>
       </div>
     </footer>

@@ -19,13 +19,14 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 /* ---------- featured trips (real Fancyellow offer, EUR per person) ---------- */
+// From fancyalgeria.com trip pages (Nov 2026). Price = solo; `who` = price per person when travelling in two.
 const trips = [
-  { title: '4 Days & 3 Nights in<br>Algiers & Constantine', price: '€450', place: 'Algiers, Constantine', when: 'Any dates', len: '(4 days, 3 nights)', who: '1 to 3 guests, private', img: 'card-4' },
-  { title: '10 Days: Roman Algeria<br>& the M\'Zab Valley', price: '€1,300', place: 'Djemila, Timgad, Tipasa, Ghardaia', when: 'Book 1 week ahead', len: '(10 days, 9 nights)', who: '1 to 3 guests, private', img: 'card-3' },
-  { title: 'Tipasa & Cherchell<br>Roman Coast Tour', price: '€120', place: 'Tipasa, Cherchell', when: 'Day tour', len: '(8 hours)', who: 'Private guide and driver', img: 'card-5' },
-  { title: 'Timimoun, the Red<br>Oasis of the Sahara', price: '€150', place: 'Timimoun, Adrar', when: 'Day tour', len: '(8 hours)', who: 'Private guide and driver', img: 'card-2' },
+  { title: '5 Days: Algiers,<br>Constantine & Tipasa', price: '€580', place: 'Algiers, Constantine, Cherchell, Tipasa', when: 'No Algiers tour on Fridays', len: '(5 days, 4 nights)', who: '€425 each for two travellers', img: 'card-4' },
+  { title: '7 Days: Roman Algeria,<br>Djemila & Timgad', price: '€880', place: 'Algiers, Djemila, Timgad, Constantine', when: 'Book 1 week ahead', len: '(7 days, 6 nights)', who: '€635 each for two travellers', img: 'card-5' },
+  { title: 'Ghardaia & the<br>M\'Zab Valley', price: '€650', place: 'Ghardaia, Beni Isguen, Sebseb oasis', when: 'Flight, hotel and guide', len: '(4 days)', who: '€420 each for two travellers', img: 'card-3' },
+  { title: 'Tamanrasset &<br>the Assekrem', price: '€680', place: 'Tamanrasset, Assekrem, Hoggar', when: 'Departs Saturday or Tuesday', len: '(3 days)', who: '€550 each for two travellers', img: 'card-7' },
+  { title: 'Djanet: the<br>Tadrart Rouge', price: '€1,050', place: 'Djanet, Tadrart, Tin Merzouga', when: 'Camping and 4x4, book 5 days ahead', len: '(7 days)', who: '€850 each for two travellers', img: 'card-1' },
   { title: 'Algiers City Tour:<br>Casbah & the Bay', price: '€120', place: 'Algiers', when: 'Saturday to Thursday', len: '(8 hours)', who: 'Private guide and driver', img: 'card-6' },
-  { title: 'Djanet & the Tassili<br>n\'Ajjer Plateau', price: 'on request', place: 'Djanet, Illizi', when: 'Multi-day trip', len: '(5 days)', who: 'With a local Sahara operator', img: 'card-1', from: false },
 ];
 
 const ico = {
@@ -106,9 +107,28 @@ function splitLines(el) {
     if (top === null || Math.abs(t - top) > 4) { lines.push([]); top = t; }
     lines[lines.length - 1].push(s.innerHTML);
   }
-  // each line is a mask; each word rises inside it, left to right
-  el.innerHTML = lines.map((l) => `<span class="ln">${l.map((w) => `<span class="wd">${w}</span>`).join(' ')}</span>`).join('');
-  return [...el.querySelectorAll('.wd')];
+  // each line is a mask with one inner block that rises (the reference animates lines: y 100% -> 0)
+  el.innerHTML = lines.map((l) => `<span class="ln"><span class="ln__i">${l.join(' ')}</span></span>`).join('');
+  return [...el.querySelectorAll('.ln__i')];
+}
+/* split into chars (keeping words together) for the label type-on and the lead colour wave */
+function splitChars(el) {
+  // only text nodes are split, so icons and <br> inside the element stay intact
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const texts = [];
+  while (walker.nextNode()) if (walker.currentNode.textContent.trim()) texts.push(walker.currentNode);
+  for (const node of texts) {
+    const frag = document.createDocumentFragment();
+    node.textContent.split(/(\s+)/).forEach((part) => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) { frag.append(' '); return; }
+      const word = document.createElement('span'); word.className = 'wch';
+      for (const ch of part) { const s = document.createElement('span'); s.className = 'ch'; s.textContent = ch; word.append(s); }
+      frag.append(word);
+    });
+    node.replaceWith(frag);
+  }
+  return [...el.querySelectorAll('.ch')];
 }
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -129,6 +149,10 @@ if (!reduce) {
   Promise.all([atRevealTime, Promise.race([Promise.all([document.fonts.ready, heroReady]), safety])]).then(() => {
     gsap.to('.intro-curtain', { autoAlpha: 0, duration: 0.2, ease: 'power1.out' });
     gsap.to('.hero__title, .hero__sub, .hero__cta, .nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 1, duration: 0.2, ease: 'power1.out' });
+    // header lines draw in (reference: bottom line scaleX 0.5 s at +0.3, verticals scaleY at +0.4 / +0.5)
+    const nav = document.querySelector('.nav');
+    gsap.fromTo(nav, { '--draw-x': 0 }, { '--draw-x': 1, duration: 0.5, delay: 0.3, ease: 'power2.inOut' });
+    gsap.fromTo(nav, { '--draw-y': 0 }, { '--draw-y': 1, duration: 0.5, delay: 0.4, ease: 'power2.inOut' });
   });
 } else gsap.set('.intro-curtain', { autoAlpha: 0 });
 
@@ -142,21 +166,76 @@ document.fonts.ready.then(() => {
   gsap.to('.hero__back, .hero__front', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   gsap.to('.hero__title, .hero__sub', { y: -140, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-  /* headings: words rise inside their line masks, left to right, starting as the heading enters */
-  for (const { h, words } of lineSets) {
+  /* timings below follow the reference's own script: power3.out reveals, power2.inOut lines, start "top 88%" */
+  const once = (trigger, start = 'top 88%') => ({ trigger, start, once: true });
+
+  /* section labels type on: chars 0 -> 0.4 -> 1, 0.03 s apart */
+  gsap.utils.toArray('.label').forEach((el) => {
+    const chars = splitChars(el);
+    gsap.set(chars, { opacity: 0 });
+    gsap.to(chars, { keyframes: [{ opacity: 0.4, duration: 0.06, ease: 'none' }, { opacity: 1, duration: 0.18, ease: 'power1.out' }], stagger: 0.03, scrollTrigger: once(el) });
+  });
+
+  /* headings: lines rise from their masks, 0.8 s, 0.08 s apart */
+  for (const { h, words: lines } of lineSets) {
     if (h.closest('.hero')) continue;
-    gsap.from(words, { yPercent: 110, autoAlpha: 0, duration: 0.85, ease: 'power3.out', stagger: 0.05, scrollTrigger: { trigger: h, start: 'top 97%', once: true } });
+    gsap.fromTo(lines, { yPercent: 105 }, { yPercent: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, scrollTrigger: once(h) });
   }
 
-  /* images and blocks slide up */
-  const ups = '.stat__item, .about__img, .about__body > *, .card, .combine__list li, .step, .combine__steps .lead, .dest__copy, .how__item, .guide, .guides__foot > *, .footer__img, .footer__main > *, .featured__head .muted, .dest__card';
-  gsap.utils.toArray(ups).forEach((el) => {
-    gsap.from(el, { y: 50, autoAlpha: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
+  /* lead paragraphs: rise, then the letters brighten from grey to white in a wave (0.008 s per char) */
+  gsap.utils.toArray('.about__body .lead, .combine__steps .lead, .dest__copy, .guides__foot .lead').forEach((el) => {
+    const chars = splitChars(el);
+    gsap.set(chars, { color: 'rgba(255, 255, 255, 0.32)' });
+    const tl = gsap.timeline({ scrollTrigger: once(el) });
+    tl.from(el, { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' })
+      .to(chars, { color: 'rgba(255, 255, 255, 1)', duration: 0.08, ease: 'none', stagger: 0.008 }, 0.3);
   });
-  /* image zoom-out inside its frame */
-  gsap.utils.toArray('.stat__img img, .about__img img, .footer__img img').forEach((img) => {
-    gsap.from(img, { scale: 1.18, duration: 1.4, ease: 'power2.out', scrollTrigger: { trigger: img, start: 'top 92%', once: true } });
+
+  /* dividers draw across */
+  gsap.utils.toArray('.line-top').forEach((el) => {
+    gsap.fromTo(el, { '--draw': 0 }, { '--draw': 1, duration: 0.8, ease: 'power2.inOut', scrollTrigger: once(el, 'top 92%') });
   });
+
+  /* images slide in from the left (x -40), text blocks rise 30 */
+  gsap.utils.toArray('.stat__img, .about__img, .guide, .footer__img, .dest__card img').forEach((el, i) => {
+    gsap.from(el, { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: once(el) });
+  });
+  gsap.utils.toArray('.stat__top, .about__stats > *, .about__foot > *, .combine__list li, .step, .how__item, .guides__foot > * > *, .footer__main > *, .featured__head .muted, .dest__card span, .dest__card small, .footer__bar p').forEach((el) => {
+    gsap.from(el, { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') });
+  });
+
+  /* trip cards: title, price, image from the left, details one by one, then the button scales in */
+  gsap.utils.toArray('.card').forEach((card) => {
+    const props = card.querySelectorAll('.card__row');
+    gsap.set(card.querySelector('.btn'), { scale: 0.85, opacity: 0 });
+    const tl = gsap.timeline({ scrollTrigger: once(card) });
+    tl.from(card.querySelector('.card__title'), { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out' }, 0)
+      .from(card.querySelector('.card__price'), { y: 30, opacity: 0, duration: 0.6, ease: 'power3.out' }, 0.1)
+      .from(card.querySelector('.card__img'), { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out' }, 0.1)
+      .from(props, { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, 0.2)
+      .to(card.querySelector('.btn'), { scale: 1, opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.2 + 0.08 * props.length);
+  });
+
+  /* people section: plus markers spin in */
+  gsap.from('.guides__plus i', { rotation: -180, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.5, scrollTrigger: once('.guides__plus') });
+
+  /* map dots: elastic pop, then a slow breathing pulse */
+  const dots = gsap.utils.toArray('.dot');
+  if (dots.length) {
+    gsap.set(dots.map((d) => d.querySelector('.dot__core')), { scale: 0 });
+    gsap.set(dots.map((d) => d.querySelector('.dot__glow')), { scale: 0, opacity: 0 });
+    const tl = gsap.timeline({ scrollTrigger: once('.dest', 'top 60%') });
+    dots.forEach((d, i) => {
+      const core = d.querySelector('.dot__core'), glow = d.querySelector('.dot__glow');
+      tl.to(glow, { scale: 0.6, opacity: 0.6, duration: 0.6, ease: 'elastic.out(1, 0.5)' }, i * 0.08)
+        .to(core, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)' }, i * 0.08)
+        .call(() => {
+          const dur = 1.6 + (i % 4) * 0.3;
+          gsap.to(core, { scale: 1.2, duration: dur, ease: 'sine.inOut', repeat: -1, yoyo: true });
+          gsap.to(glow, { scale: 1.1, opacity: 0.35, duration: dur, ease: 'sine.inOut', repeat: -1, yoyo: true });
+        }, null, i * 0.08 + 0.6);
+    });
+  }
   /* nav: the link of the section in view turns orange */
   document.querySelectorAll('.nav__links a').forEach((a) => {
     const target = document.querySelector(a.getAttribute('href'));
