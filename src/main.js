@@ -38,29 +38,27 @@ grid.innerHTML = trips.map((t) => `
     <div class="card__img"><img src="/photos/${t.img}.jpg" alt="" loading="lazy" /></div>
   </article>`).join('');
 
-/* ---------- hero depth layer: keep the clipped front copy aligned with the cover-fitted photo ---------- */
+/* ---------- hero framing ---------- */
+// Photo: Setif high plains, 3200x1800: teal sky, flat-topped ridge in a fog band, village, golden stubble field.
+// Cover-fit, then zoom and anchor so the fog band rises behind the headline, the village sits under the
+// subtitle and the field fills the bottom third, like the reference's plain.
 const hero = document.querySelector('.hero');
-// Hero framing: photo is 3200x2133 (Algerian hills under a teal sky). Show it from the top down to
-// photo row VIS_H, so the olive trees at the bottom of the frame stay out of view.
 const heroImgs = [...document.querySelectorAll('.hero__img')];
-const IW = 3200, IH = 2133, VIS_H = 1420, POS_X = 0.5, CREST_Y = 624; // CREST_Y: highest point of the hill line
+const HERO = { iw: 3200, ih: 1800, zoom: 1.2, posX: 0.5, posY: 1 };
 function fitFront() {
+  const mobile = innerWidth < 768;
   const w = hero.clientWidth, h = hero.clientHeight;
-  const s = Math.max(w / IW, h / VIS_H);
-  const iw = IW * s, ih = IH * s, ox = (iw - w) * POS_X;
-  for (const img of heroImgs) Object.assign(img.style, { width: `${iw}px`, height: `${ih}px`, left: `${-ox}px`, top: '0px' });
-  hero.style.setProperty('--crest', `${CREST_Y * s}px`);
-  // sky layers stop along the real hill line (photo pixels), lifted a little so the blur never touches the crest
-  const pathAt = (el, lift) => {
-    const dx = -el.offsetLeft - ox; // layer may extend past the hero edges
-    const pts = CREST.map(([x, y]) => `L${(x * s + dx).toFixed(1)} ${(y * s - lift).toFixed(1)}`).join(' ');
-    return `path('M${dx} 0 L${iw + dx} 0 ${pts} Z')`;
-  };
-  skyLayers[0].style.clipPath = pathAt(skyLayers[0], 22); // blur: kept clear of the crest
-  skyLayers[1].style.clipPath = pathAt(skyLayers[1], -6); // tone: right down to the hill line
+  const zoom = mobile ? 1.05 : HERO.zoom;
+  const s = Math.max(w / HERO.iw, h / HERO.ih) * zoom;
+  const iw = HERO.iw * s, ih = HERO.ih * s;
+  const ox = (iw - w) * (mobile ? 0.42 : HERO.posX), oy = (ih - h) * HERO.posY;
+  for (const img of heroImgs) Object.assign(img.style, { width: `${iw}px`, height: `${ih}px`, left: `${-ox}px`, top: `${-oy}px` });
+  // photo row -> hero px, for the grade layers (fog band burn sits on rows 790 to 1060)
+  const row = (y) => `${(y * s - oy).toFixed(1)}px`;
+  hero.style.setProperty('--fog-top', row(760));
+  hero.style.setProperty('--fog-bot', row(1080));
+  hero.style.setProperty('--field-top', row(1280));
 }
-const skyLayers = [...document.querySelectorAll('.hero__sky, .hero__shade')];
-const CREST = [[3200, 728], [2720, 736], [2320, 672], [2000, 629], [1600, 632], [1280, 656], [960, 680], [480, 664], [240, 640], [0, 624]];
 fitFront();
 addEventListener('resize', fitFront);
 

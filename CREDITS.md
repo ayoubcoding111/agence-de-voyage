@@ -4,7 +4,8 @@ All photos are free to use commercially under the Unsplash License or the Pexels
 
 | File | Photographer | Source | Photo page URL | Place shown |
 |---|---|---|---|---|
-| hero.jpg | Mezidi Zineb | Unsplash | https://unsplash.com/photos/NxXTuVBlOnI | Algeria (exact place not stated on the page; tagged Algeria) |
+| hero.jpg (not used now) | Mezidi Zineb | Unsplash | https://unsplash.com/photos/NxXTuVBlOnI | Algeria (exact place not stated on the page; tagged Algeria) |
+| hero-setif.jpg (hero) | Abdelaziz Merabtine | Pexels | https://www.pexels.com/photo/a-view-of-a-field-with-clouds-and-mountains-26926511/ | Setif, Algeria |
 | tile-sahara.jpg | Mounir Abdi | Unsplash | https://unsplash.com/photos/a-large-sand-dune-in-the-middle-of-a-desert-M0036jK1Ra0 | Djanet, Algeria |
 | tile-culture.jpg | Ãbdøû Mâïstrø | Unsplash | https://unsplash.com/photos/an-empty-street-with-a-bench-in-the-middle-iRJwakbqriY | Beni Isguen, M'Zab (Ghardaia), Algeria |
 | tile-roman.jpg | Ondrej Bocek | Unsplash | https://unsplash.com/photos/ancient-roman-ruins-stand-in-the-desert-landscape-UvlCbhVgYo0 | Timgad, Algeria |
