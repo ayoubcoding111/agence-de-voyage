@@ -33,7 +33,7 @@ grid.innerHTML = trips.map((t) => `
         <div class="card__row"><span>${t.who}</span>${ico.ppl}</div>
         <div class="card__row"><span>Rated 4.8 <em>on Trustpilot</em></span><span class="stars">${ico.star.repeat(5)}</span></div>
       </div>
-      <a class="btn btn--secondary" href="#contact">Explore Trip <i class="btn__dot"></i></a>
+      <a class="btn btn--secondary" href="#contact">Explore Trip <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
     </div>
     <div class="card__img"><img src="/photos/${t.img}.jpg" alt="" loading="lazy" /></div>
   </article>`).join('');
