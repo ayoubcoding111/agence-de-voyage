@@ -49,7 +49,7 @@ grid.innerHTML = trips.map((t) => `
       </div>
       <a class="btn btn--secondary" href="#contact">Explore Trip <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
     </div>
-    <div class="card__img"><img src="/photos/${t.img}.jpg" alt="" loading="lazy" /></div>
+    <div class="card__img"><img src="/photos/web/${t.img}.jpg" alt="" loading="lazy" decoding="async" /></div>
   </article>`).join('');
 
 /* ---------- hero framing ---------- */
@@ -106,7 +106,7 @@ const sinceNav = () => performance.now() / 1000;
 if (!reduce) {
   gsap.set('.hero__title, .hero__sub, .hero__cta, .nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 0 });
   gsap.to('.intro-curtain', { backgroundColor: '#091b20', duration: 0.1, ease: 'none', delay: Math.max(0, 0.25 - sinceNav()) });
-  const atRevealTime = new Promise((r) => setTimeout(r, Math.max(0, 1.25 - sinceNav()) * 1000));
+  const atRevealTime = new Promise((r) => setTimeout(r, Math.max(0, 1.1 - sinceNav()) * 1000));
   // hero photo ready (load event, not decode(): decode() can stay pending on a script-sized srcset image)
   const heroReady = new Promise((r) => {
     const img = heroImgs[0];
@@ -141,7 +141,7 @@ document.fonts.ready.then(() => {
     gsap.from(el, { y: 50, autoAlpha: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
   });
   /* image zoom-out inside its frame */
-  gsap.utils.toArray('.stat__img img, .about__img img, .card__img img, .guide img, .footer__img img').forEach((img) => {
+  gsap.utils.toArray('.stat__img img, .about__img img, .footer__img img').forEach((img) => {
     gsap.from(img, { scale: 1.18, duration: 1.4, ease: 'power2.out', scrollTrigger: { trigger: img, start: 'top 92%', once: true } });
   });
   /* nav: the link of the section in view turns orange */
