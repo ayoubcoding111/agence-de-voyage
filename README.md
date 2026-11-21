@@ -26,7 +26,7 @@ Add `?clean` to the URL for the variant without step counters, small section lab
 Trips, prices, contact details and the 4.8 / 58 reviews Trustpilot figure come from Fancyellow's own site and Trustpilot profile (November 2026). Prices marked "on request" were not published.
 
 To check with the client before launch:
-- Which office address is current (the site and Trustpilot show different ones).
+- Which office address is current (the site and Trustpilot show different ones). The map and maps links search for "20 avenue Abdelkader, Algiers", which Google places at 20 Av. Ziar Abdelkader, Bologhine; replace the query in index.html with the client's own Google Maps link once confirmed.
 - Real photos of the team and guides. The portraits in the "People of Algeria" section are stock photos captioned by place, not staff.
 - Djanet trip details and price.
 

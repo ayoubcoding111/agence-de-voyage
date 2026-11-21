@@ -204,8 +204,12 @@ document.fonts.ready.then(() => {
     gsap.from(el, { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') });
   });
 
+  /* office map: text rises, map slides in from the left */
+  gsap.from('.office__info > *', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08, scrollTrigger: once('.office') });
+  gsap.from('.office__map', { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: once('.office') });
+
   /* footer bar sits at the very bottom, so it is triggered by the footer block above it (it may never reach 92%) */
-  gsap.from('.footer__bar p', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, scrollTrigger: once('.footer__main', 'top 85%') });
+  gsap.from('.footer__bar p', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, scrollTrigger: once('.office', 'top 70%') });
 
   /* trip cards: title, price, image from the left, details one by one, then the button scales in */
   gsap.utils.toArray('.card').forEach((card) => {
