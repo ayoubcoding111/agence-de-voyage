@@ -133,6 +133,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .about__img { aspect-ratio: 668 / 544; overflow: hidden; }
 .about__body { display: flex; flex-direction: column; }
 .about__body .lead { max-width: 36rem; }
+@media (min-width: 1600px) { .about__foot { grid-template-columns: max-content 1fr; column-gap: 3rem; } .about__foot .muted { white-space: nowrap; } .about__foot .muted br { display: none; } }
 .indent { text-indent: 3.375rem; }
 .about__stats { display: grid; grid-template-columns: 21.625rem 1fr; margin-top: 2.4375rem; }
 .about__stats b { display: block; font-size: 2.8125rem; line-height: 2.8125rem; font-weight: 600; letter-spacing: -3px; }
@@ -172,8 +173,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ---------- combine ---------- */
 .combine { position: relative; height: calc(53.9375 * var(--u)); overflow: hidden; }
 .combine__bg { position: absolute; inset: -8% 0; z-index: 0; }
-.combine__bg img { filter: contrast(1.3) brightness(0.76); }
-.combine__tint { position: absolute; inset: 0; z-index: 1; mix-blend-mode: color; background: linear-gradient(180deg, #b88c4c 0%, #c0904c 40%, #8a6430 75%, #463420 100%); opacity: 1; }
+.combine__bg img { filter: contrast(1.3) brightness(0.84); }
+.combine__tint { position: absolute; inset: 0; z-index: 1; mix-blend-mode: color; background: linear-gradient(180deg, #d6aa62 0%, #c99a52 38%, #8a6430 72%, #463420 100%); opacity: 1; }
 .combine__bg::after { z-index: 2; }
 .combine__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 14, 6, 0.3) 0%, rgba(20, 14, 6, 0.06) 30%, rgba(34, 22, 8, 0.5) 58%, rgba(14, 18, 16, 0.86) 84%, rgba(9, 27, 32, 0.95) 100%); }
 .combine__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding-top: 5rem; }
@@ -244,12 +245,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .footer__legal { display: flex; gap: 1.5rem; padding-right: var(--m); }
 
 /* ---------- photo grade: warm, calm, matched to the reference palette ---------- */
-.stat__img img, .card__img img, .dest__card img { filter: sepia(0.24) saturate(1) contrast(1.12) brightness(0.86); }
+.stat__img img, .card__img img, .dest__card img { filter: sepia(0.18) saturate(1.18) contrast(1.16) brightness(0.88); }
 /* about photo: pushed toward the reference's pastel pink-mauve haze */
 .about__img { position: relative; }
 .about__img img { filter: saturate(0.7) hue-rotate(-20deg) brightness(1.22) contrast(0.92); }
 .about__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(231, 160, 168, 0.5) 0%, rgba(200, 138, 160, 0.26) 55%, rgba(30, 42, 34, 0) 100%); mix-blend-mode: screen; pointer-events: none; }
-.guide img { filter: saturate(0.6) sepia(0.2) contrast(0.95) brightness(1.02); }
+.guide img { filter: saturate(0.78) sepia(0.08) contrast(1) brightness(1.03); }
 .footer__img img { filter: brightness(0.66) contrast(1.5) saturate(1.25) sepia(0.12) hue-rotate(-8deg); }
 .footer__img i { background: radial-gradient(55% 85% at 18% 78%, rgba(255, 196, 96, 0.22) 0%, rgba(255, 196, 96, 0) 100%), linear-gradient(90deg, rgba(9, 27, 32, 0.05) 0%, rgba(9, 27, 32, 0.22) 38%, rgba(9, 27, 32, 0.72) 70%, rgba(9, 27, 32, 0.8) 100%); }
 
@@ -316,7 +317,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .featured { padding-top: 3.9663rem; padding-bottom: 0; }
   .featured__head { grid-template-columns: 1fr; gap: 1.0216rem; }
   .featured .featured__head .h2 { font-size: 2.8125rem; line-height: 2.8125rem; letter-spacing: -3px; width: 15.625rem; }
-  .featured__head .muted { font-size: 0.875rem; line-height: 1.1376rem; font-weight: 400; padding-top: 0; }
+  .featured__head .muted { font-size: 0.875rem; line-height: 1.1376rem; font-weight: 400; padding-top: 0; max-width: 18.6rem; }
   .featured__grid { grid-template-columns: 1fr; margin-top: 2.3438rem; }
   .card { grid-template-columns: 1fr; gap: 0; padding: 1.6827rem var(--m) 2.4038rem; border-right: 0 !important; }
   .dest__copy { font-size: 1.125rem; line-height: 1.35rem; letter-spacing: -0.5px; }
