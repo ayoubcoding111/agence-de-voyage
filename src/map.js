@@ -29,7 +29,7 @@ export function drawMap(canvas) {
 
   const land = feature(world, world.objects.countries);
   const borders = mesh(world, world.objects.countries, (a, b) => a !== b);
-  const proj = geoMercator().center([6, 30]).scale(w * 1.05).translate([w * 0.5, h * 0.7]);
+  const proj = geoMercator().center([18, 38]).scale(w * 0.62).translate([w * 0.5, h * 0.66]);
   const path = geoPath(proj, ctx);
 
   // sea
@@ -44,9 +44,9 @@ export function drawMap(canvas) {
   // land
   ctx.beginPath(); path(land);
   ctx.fillStyle = '#071418'; ctx.fill();
-  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(160, 200, 210, 0.07)'; ctx.stroke();
+  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(160, 200, 210, 0.1)'; ctx.stroke();
   ctx.beginPath(); path(borders);
-  ctx.lineWidth = 0.8; ctx.strokeStyle = 'rgba(160, 200, 210, 0.1)'; ctx.stroke();
+  ctx.lineWidth = 0.8; ctx.strokeStyle = 'rgba(160, 200, 210, 0.13)'; ctx.stroke();
 
   // fade top and bottom into the page colour
   const fadeTop = ctx.createLinearGradient(0, 0, 0, h * 0.42);
@@ -59,10 +59,10 @@ export function drawMap(canvas) {
   // city dots with glow
   for (const [lon, lat, s] of cities) {
     const [x, y] = proj([lon, lat]);
-    const r = s * 0.5;
-    const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 3);
-    glow.addColorStop(0, 'rgba(247, 148, 29, 0.22)'); glow.addColorStop(1, 'rgba(247, 148, 29, 0)');
-    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(x, y, r * 3, 0, Math.PI * 2); ctx.fill();
+    const r = s * 0.42;
+    const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 4);
+    glow.addColorStop(0, 'rgba(247, 148, 29, 0.3)'); glow.addColorStop(1, 'rgba(247, 148, 29, 0)');
+    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(x, y, r * 4, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#f7941d'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
   }
 }

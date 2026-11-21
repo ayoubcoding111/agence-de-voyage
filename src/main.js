@@ -40,17 +40,27 @@ grid.innerHTML = trips.map((t) => `
 
 /* ---------- hero depth layer: keep the clipped front copy aligned with the cover-fitted photo ---------- */
 const hero = document.querySelector('.hero');
-const frontImg = document.querySelector('.hero__front img');
-const POS_X = 0.7, POS_Y = 0.5, IW = 3200, IH = 1800;
-// ridge silhouette of the photo, in photo pixels: everything below it is drawn in front of the headline
-const RIDGE = [[0, 1500], [1300, 1500], [1440, 1280], [1600, 1200], [1664, 1120], [1776, 1040], [1936, 960], [2080, 870], [2152, 826], [2200, 790], [2240, 768], [2300, 748], [2352, 739], [2460, 742], [2560, 752], [2720, 756], [2880, 755], [3020, 728], [3136, 704], [3200, 688], [3200, 1800], [0, 1800]];
+// Hero framing: photo is 3200x2133 (Algerian hills under a teal sky). Show it from the top down to
+// photo row VIS_H, so the olive trees at the bottom of the frame stay out of view.
+const heroImgs = [...document.querySelectorAll('.hero__img')];
+const IW = 3200, IH = 2133, VIS_H = 1420, POS_X = 0.5, CREST_Y = 624; // CREST_Y: highest point of the hill line
 function fitFront() {
   const w = hero.clientWidth, h = hero.clientHeight;
-  const s = Math.max(w / IW, h / IH);
-  const ox = (IW * s - w) * POS_X, oy = (IH * s - h) * POS_Y;
-  const d = RIDGE.map(([x, y], i) => `${i ? 'L' : 'M'}${(x * s - ox).toFixed(1)} ${(y * s - oy).toFixed(1)}`).join(' ') + ' Z';
-  frontImg.style.clipPath = `path('${d}')`;
+  const s = Math.max(w / IW, h / VIS_H);
+  const iw = IW * s, ih = IH * s, ox = (iw - w) * POS_X;
+  for (const img of heroImgs) Object.assign(img.style, { width: `${iw}px`, height: `${ih}px`, left: `${-ox}px`, top: '0px' });
+  hero.style.setProperty('--crest', `${CREST_Y * s}px`);
+  // sky layers stop along the real hill line (photo pixels), lifted a little so the blur never touches the crest
+  const pathAt = (el, lift) => {
+    const dx = -el.offsetLeft - ox; // layer may extend past the hero edges
+    const pts = CREST.map(([x, y]) => `L${(x * s + dx).toFixed(1)} ${(y * s - lift).toFixed(1)}`).join(' ');
+    return `path('M${dx} 0 L${iw + dx} 0 ${pts} Z')`;
+  };
+  skyLayers[0].style.clipPath = pathAt(skyLayers[0], 22); // blur: kept clear of the crest
+  skyLayers[1].style.clipPath = pathAt(skyLayers[1], -6); // tone: right down to the hill line
 }
+const skyLayers = [...document.querySelectorAll('.hero__sky, .hero__shade')];
+const CREST = [[3200, 728], [2720, 736], [2320, 672], [2000, 629], [1600, 632], [1280, 656], [960, 680], [480, 664], [240, 640], [0, 624]];
 fitFront();
 addEventListener('resize', fitFront);
 
@@ -85,7 +95,7 @@ document.fonts.ready.then(() => {
 
   /* intro */
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  const GRADE = 'saturate(0.8) hue-rotate(10deg) brightness(0.97)';
+  const GRADE = getComputedStyle(hero).getPropertyValue('--hero-grade').trim() || 'saturate(1)';
   gsap.set('.hero__img', { scale: 1.12, filter: `blur(18px) ${GRADE}` });
   gsap.set('.hero__title, .hero__sub', { yPercent: 40, autoAlpha: 0 });
   gsap.set('.hero__cta', { autoAlpha: 0, y: 20 });
