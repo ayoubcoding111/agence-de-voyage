@@ -85,27 +85,26 @@ function splitLines(el) {
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-document.fonts.ready.then(() => {
+Promise.all([document.fonts.ready, heroImgs[0].decode().catch(() => {})]).then(() => {
   const heads = [...document.querySelectorAll('.split, .featured__head .h2, .combine .h2')];
   const lineSets = heads.map((h) => ({ h, lines: splitLines(h) }));
 
   if (reduce) { gsap.set('.intro-curtain', { autoAlpha: 0 }); return; }
 
-  /* intro */
+  /* intro, timed to the reference: near-black, then page teal, then the hero arrives with its type
+     almost in place (short rise), the photo settles from a slight zoom, nav links stagger in */
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  const GRADE = getComputedStyle(hero).getPropertyValue('--hero-grade').trim() || 'saturate(1)';
-  gsap.set('.hero__img', { scale: 1.12, filter: `blur(18px) ${GRADE}` });
-  gsap.set('.hero__title, .hero__sub', { yPercent: 40, autoAlpha: 0 });
-  gsap.set('.hero__cta', { autoAlpha: 0, y: 20 });
-  gsap.set('.nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 0, y: -10 });
-  tl.to('.intro-curtain', { backgroundColor: '#091b20', duration: 0.35, ease: 'none' })
-    .to('.intro-curtain', { autoAlpha: 0, duration: 0.6 }, '+=0.05')
-    .to('.hero__img', { scale: 1, filter: `blur(0px) ${GRADE}`, duration: 1.6, ease: 'power2.out' }, '<')
-    .to('.hero__title', { yPercent: 0, autoAlpha: 1, duration: 1.1 }, '-=1.15')
-    .to('.hero__sub', { yPercent: 0, autoAlpha: 1, duration: 1 }, '-=0.85')
-    .to('.nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08 }, '-=0.9')
-    .to('.hero__cta', { autoAlpha: 1, y: 0, duration: 0.7 }, '-=0.6')
-    .set('.hero__img', { clearProps: 'filter' });
+  gsap.set('.hero__img', { scale: 1.05 });
+  gsap.set('.hero__title, .hero__sub', { yPercent: 14, autoAlpha: 0 });
+  gsap.set('.hero__cta', { autoAlpha: 0, y: 12 });
+  gsap.set('.nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 0, y: -8 });
+  tl.to('.intro-curtain', { backgroundColor: '#091b20', duration: 0.25, ease: 'none' }, 0.35)
+    .to('.intro-curtain', { autoAlpha: 0, duration: 0.3, ease: 'power1.out' }, 1.15)
+    .to('.hero__img', { scale: 1, duration: 1.5, ease: 'power2.out' }, 1.15)
+    .to('.hero__title', { yPercent: 0, autoAlpha: 1, duration: 0.7 }, 1.2)
+    .to('.hero__sub', { yPercent: 0, autoAlpha: 1, duration: 0.7 }, 1.28)
+    .to('.hero__cta', { autoAlpha: 1, y: 0, duration: 0.6 }, 1.38)
+    .to('.nav .nav__logo, .nav__links a, .nav__cta', { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.07 }, 1.3);
 
   /* hero parallax: photo drifts, headline lifts away */
   gsap.to('.hero__back, .hero__front', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
