@@ -65,7 +65,7 @@ All Inter. Letter-spacing is always in **em** (so it scales with the text; never
 - Section rhythm: 5rem top padding on sections, dividers as full-width 1px `--line` rules (`.line-top`), column dividers as 1px vertical rules.
 - Images: `object-fit: cover`, no rounded corners, no shadows. Aspect ratios are kept on desktop (`aspect-ratio`), fixed heights on phones.
 - Breakpoint: one, at **767px** (phone layout below). Everything else scales.
-- Section order: hero, Tours (3 tiles), About (photo, lead, 2 stats, press row), As Featured In band, Featured Trips (6 cards), Build Your Trip (full-bleed photo + 4 steps), Explore by Destination (map), How It Works (4 icons), People of Algeria (4 photos), footer (panorama, logo, links, contacts), Our Office (map), copyright bar.
+- Section order: hero, Tours (3 tiles), About (photo, lead, 2 stats, press row), As Featured In band, Featured Trips (6 cards), Build Your Trip (full-bleed photo + 4 steps), Explore by Destination (map), How It Works (4 icons), People of Algeria (4 photos), footer (panorama, logo, links, contacts), copyright bar.
 
 ## 5. Components
 
@@ -76,16 +76,15 @@ All Inter. Letter-spacing is always in **em** (so it scales with the text; never
 - **Trip card**: text column (title, "from €price", 4 meta rows with thin line icons, rating row with 5 orange stars, "Show Details" button) beside a photo, 2 cards per row on desktop with 1px dividers. Phones: title, price, photo, meta, button, stacked.
 - **Trip details panel** (`.trip`): slides in from the right (0.6s power3.out), scrim with blur, gallery (main photo + 3), title, place, intro, price strip, itinerary (day label in accent), included (orange dots), notes (outlined dots), Book by Email + WhatsApp buttons. Closes with the round x, the scrim, or Escape. Data in `src/trips.js`.
 - **People photos**: hovering reveals a `--panel` overlay with the place, a sentence, and the Fancyellow tour that goes there (0.2s linear fade). Portraits are stock photos captioned by place, never presented as staff.
-- **Press**: logos are white marks on transparency (`public/photos/press/white/`), shown at about 0.72 opacity, 1 on hover. "As Featured In" band scrolls continuously (55s loop, pauses on hover, static grid if reduced motion). Convert any new logo with `node cook/harness/whitelogo.mjs in.png out.png [auto|dark|inv]`.
+- **Press**: logos are white marks on transparency (`public/photos/press/white/`), shown at about 0.72 opacity, 1 on hover. "As Featured In" band scrolls continuously (55s loop, pauses on hover, static grid if reduced motion). Only mouse hover or keyboard focus-visible pauses it; a link that kept focus after a click must not. Convert any new logo with `node cook/harness/whitelogo.mjs in.png out.png [auto|dark|inv]`.
 - **Map** (destinations): d3-geo canvas, land `#10242a` on the page colour, faint borders, orange city dots that pop in and pulse.
-- **Office map**: embedded Google map darkened with CSS filters to the page palette, beside address, phones and an "Open in Google Maps" button.
 
 ## 6. Photography
 
 - Real Algerian places only, free licence (Unsplash or Pexels), every photo credited in `CREDITS.md` (file, photographer, source, page URL, place). Never use the reference site's photos.
-- Grade: warm, slightly darkened, gently contrasted. Default for content photos: `sepia(.18) saturate(1.18) contrast(1.16) brightness(.88)`. Big landscape bands get their own grade layers (see the hero and combine sections in `style.css`).
+- No grade: photos are shown exactly as shot, with no CSS filters, tints, colour blends or hover effects on any photo. The only effects allowed on photos are the hero bottom blur (a pre-blurred copy masked to the bottom) and neutral dark gradients behind white text where it needs them (build-your-trip band, footer).
 - Sizes: content photos live in `public/photos/web/` at about 1.5x display size (800 to 2000px wide, JPEG q4); trip galleries in `public/photos/trips/` (1400px). Never ship full-size originals in content slots (it causes scroll lag).
-- Hero: Assekrem (Hoggar) photo drawn twice; the front copy is clipped along a traced skyline (`cook/harness/skyline.mjs`) so the peaks sit in front of the bottom of "Algeria". Keep this depth effect if the hero photo changes.
+- Hero: Hoggar sunset photo (`hero-hoggar*.jpg`, 3200x2045: the original 3200x1800 with the sky continued 245px upward) drawn twice. The front copy is masked with a matte of the mountains (`public/photos/hero-hoggar-mask.png`, white = mountains, same 3200x2045 frame, alpha PNG, edge snapped to the photo's real silhouette; a mask from an image model came out about 8% too low and had to be refitted), set to the photo size and offset in `fitFront()` in `src/main.js`, so the pinnacle tips sit in front of the bottom of "Algeria". Keep this depth effect if the hero photo changes (new photo = new matte, same frame). Originals live in `cook/` (`hero-hoggar-source.jpg`, `hero-hoggar-mask.png`, git-ignored).
 - No image zoom on hover.
 
 ## 7. Motion
@@ -102,7 +101,7 @@ All with GSAP + ScrollTrigger; Lenis smooth scroll (lerp 0.1) on the GSAP ticker
 | Images | slide in from x -40 with opacity, 0.8s power3.out |
 | Text blocks | rise y 30, 0.7s power3.out |
 | Trip cards | title, price, photo, meta rows (0.08s stagger), then button scales in |
-| Hero scroll | photo drifts down (yPercent 18), title lifts (-140px), scrubbed |
+| Hero scroll | none: photo and headline scroll together as one block, no parallax |
 | Hover | 0.2s colour or opacity changes only; no movement, no zoom |
 
 Respect `prefers-reduced-motion` (no reveals, no marquee). Keep everything at 60fps: no live `backdrop-filter` or `filter: blur()` on scrolling layers (use pre-blurred images), keep grade layers inside the moving group.

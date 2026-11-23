@@ -4,9 +4,7 @@ All photos are free to use commercially under the Unsplash License or the Pexels
 
 | File | Photographer | Source | Photo page URL | Place shown |
 |---|---|---|---|---|
-| hero.jpg (not used now) | Mezidi Zineb | Unsplash | https://unsplash.com/photos/NxXTuVBlOnI | Algeria (exact place not stated on the page; tagged Algeria) |
-| hero-assekrem.jpg (hero) | Azzedine Rouichi | Unsplash | https://unsplash.com/photos/Mr_nAvWCxHQ | Route de l'Assekrem, Hoggar, Tamanrasset, Algeria |
-| hero-setif.jpg (not used now) | Abdelaziz Merabtine | Pexels | https://www.pexels.com/photo/a-view-of-a-field-with-clouds-and-mountains-26926511/ | Setif, Algeria |
+| hero-hoggar.jpg (hero) | Djamel Ramdani | Pexels | https://www.pexels.com/photo/hoggar-27443487/ | Hoggar mountains at sunset, Tamanrasset, Algeria. The sky is continued upward by 248px (retouched) so the title sits on sky. |
 | tile-sahara.jpg | Mounir Abdi | Unsplash | https://unsplash.com/photos/a-large-sand-dune-in-the-middle-of-a-desert-M0036jK1Ra0 | Djanet, Algeria |
 | tile-culture.jpg | Ãbdøû Mâïstrø | Unsplash | https://unsplash.com/photos/an-empty-street-with-a-bench-in-the-middle-iRJwakbqriY | Beni Isguen, M'Zab (Ghardaia), Algeria |
 | tile-roman.jpg | Ondrej Bocek | Unsplash | https://unsplash.com/photos/ancient-roman-ruins-stand-in-the-desert-landscape-UvlCbhVgYo0 | Timgad, Algeria |
@@ -18,7 +16,7 @@ All photos are free to use commercially under the Unsplash License or the Pexels
 | card-5.jpg | Azzedine Rouichi | Unsplash | https://unsplash.com/photos/a-large-building-made-of-bricks-sitting-on-top-of-a-dirt-field-FwdWEIDzrEs | Royal Mausoleum of Mauretania, Tipaza, Algeria |
 | card-6.jpg | abderrahmane chablaoui | Unsplash | https://unsplash.com/photos/a-view-of-a-city-at-sunset-with-the-ocean-in-the-background-xyONOpOAmuo | Algiers bay at sunset, Algeria |
 | wide-mist.jpg | Quang Nguyen Vinh | Pexels | https://www.pexels.com/photo/green-grass-covered-mountain-under-white-clouds-11334345/ | Misty valleys at sunrise (place not stated; page tags suggest Dalat, Vietnam) |
-| footer.jpg | Younes Hamzaoui | Pexels | https://www.pexels.com/photo/scenic-mountain-valley-with-green-fields-34423240/ | Mountain valley with rural homes (place not stated on page; looks Maghreb) |
+| web/footer-tipasa.jpg (footer; same photo as trips/tipasa-1.jpg) | Rab Rabah | Unsplash | https://unsplash.com/photos/qI94ozTxOFc | Roman ruins by the sea, Tipasa, Algeria |
 | guide-1.jpg | Moaz Tobok | Pexels | https://www.pexels.com/photo/man-in-white-hijab-and-black-leather-jacket-12088763/ | Tuareg man with camel near Adrar, Algeria |
 | guide-2.jpg | Khaled Hamoud | Pexels | https://www.pexels.com/photo/elderly-woman-in-traditional-clothes-sitting-on-ground-6547301/ | Ghassira, Batna Province, Algeria |
 | guide-3.jpg | Mohamed elamine M'siouri | Pexels | https://www.pexels.com/photo/man-wearing-yellow-hijab-2097475/ | Algeria (place not stated) |

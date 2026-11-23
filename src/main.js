@@ -104,16 +104,15 @@ panel.addEventListener('click', (e) => { if (e.target.closest('.trip__close, .tr
 addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) closeTrip(); });
 
 /* ---------- hero framing + depth ---------- */
-// Photo: Assekrem road, Hoggar, 3200x2323: two granite pinnacles (apexes at photo rows 772 / 780) under a
-// blue sky, stony valley in front. The photo is drawn twice: the back copy shows the sky behind the
-// headline, the front copy is clipped along the traced skyline, so the pinnacle tips sit in front of
-// the bottom of the letters (the reference does the same with its hill and "Travel").
+// Photo: Hoggar at sunset (3200x1800, sky continued upward by 245px to 3200x2045 so the peaks can sit just above the
+// headline baseline). The photo is drawn twice: the back copy shows the sky behind the headline, the front copy is
+// masked with a matte of the mountains (public/photos/hero-hoggar-mask.png, same frame as the photo, edge fitted to the photo's real silhouette), so the pinnacle
+// tips sit in front of the bottom of the letters.
 const hero = document.querySelector('.hero');
 const heroImgs = [...document.querySelectorAll('.hero__img')];
 const front = document.querySelector('.hero__front');
-const HERO = { iw: 3200, ih: 2323, apexY: 776 };
-// traced with cook/harness/skyline.mjs (photo px)
-const SKYLINE = [[0,1004],[80,1036],[160,1040],[240,1068],[320,1096],[400,1120],[480,1160],[560,1148],[600,1076],[680,1088],[760,1116],[800,1112],[840,1072],[880,996],[920,940],[960,848],[1000,788],[1040,772],[1080,772],[1120,796],[1160,832],[1200,868],[1240,900],[1280,928],[1360,940],[1400,948],[1440,984],[1480,1028],[1520,1068],[1560,1084],[1600,1076],[1636,964],[1676,896],[1716,816],[1756,780],[1796,780],[1836,816],[1876,876],[1916,924],[1956,1064],[1996,1140],[2036,1231],[2116,1271],[2196,1299],[2276,1263],[2356,1215],[2436,1152],[2476,1104],[2516,1088],[2556,1100],[2636,1163],[2716,1235],[2796,1267],[2876,1255],[2956,1219],[3036,1171],[3116,1124],[3200,1072]];
+// apexY: centre pinnacle tip, in extended-photo px
+const HERO = { iw: 3200, ih: 2045, apexY: 762, zoom: 1.22 };
 function fitFront() {
   const mobile = innerWidth < 768;
   const w = hero.clientWidth, h = hero.clientHeight;
@@ -121,13 +120,13 @@ function fitFront() {
   // desktop: zoom 1.22 over width fit, apexes at 44% of the hero height (just above the headline baseline)
   // mobile: scale so the apexes land at 40% with the photo top at the hero top
   const apexFrac = mobile ? 0.42 : 0.455;
-  const s = mobile ? Math.max(cover, (apexFrac * h) / HERO.apexY) : Math.max(cover, (w / HERO.iw) * 1.22);
+  const s = mobile ? Math.max(cover, (apexFrac * h) / HERO.apexY) : Math.max(cover, (w / HERO.iw) * HERO.zoom);
   const iw = HERO.iw * s, ih = HERO.ih * s;
   const ox = (iw - w) * 0.5;
   const oy = Math.min(Math.max(HERO.apexY * s - apexFrac * h, 0), ih - h);
   for (const img of heroImgs) Object.assign(img.style, { width: `${iw}px`, height: `${ih}px`, left: `${-ox}px`, top: `${-oy}px` });
-  const pts = SKYLINE.map(([x, y]) => `L${(x * s - ox).toFixed(1)} ${(y * s - oy).toFixed(1)}`).join(' ');
-  front.style.clipPath = `path('M${(-ox).toFixed(1)} ${(ih - oy + 50).toFixed(1)} ${pts} L${(iw - ox).toFixed(1)} ${(ih - oy + 50).toFixed(1)} Z')`;
+  // the matte follows the photo exactly (same size and offset)
+  Object.assign(front.style, { webkitMaskSize: `${iw}px ${ih}px`, maskSize: `${iw}px ${ih}px`, webkitMaskPosition: `${-ox}px ${-oy}px`, maskPosition: `${-ox}px ${-oy}px` });
   hero.style.setProperty('--sky-bot', `${(HERO.apexY * s - oy).toFixed(1)}px`);
   // foreground depth of field in hero pixels: sharp to 64% of the hero height, fully soft from 84%
   // (the image is taller than the hero, so a percentage mask on the image itself would start off-screen)
@@ -212,9 +211,7 @@ document.fonts.ready.then(() => {
 
   if (reduce) return;
 
-  /* hero parallax: photo drifts, headline lifts away */
-  gsap.to('.hero__back, .hero__front', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero__title, .hero__sub', { y: -140, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  /* hero: no parallax, photo and headline scroll together as one block */
 
   /* timings below follow the reference's own script: power3.out reveals, power2.inOut lines, start "top 88%" */
   const once = (trigger, start = 'top 88%') => ({ trigger, start, once: true });
@@ -243,7 +240,9 @@ document.fonts.ready.then(() => {
 
   /* dividers draw across */
   gsap.utils.toArray('.line-top').forEach((el) => {
-    gsap.fromTo(el, { '--draw': 0 }, { '--draw': 1, duration: 0.8, ease: 'power2.inOut', scrollTrigger: once(el, 'top 92%') });
+    // the copyright bar sits at the very bottom and may never reach 92%, so it is triggered by the footer block above it
+    const trig = el.classList.contains('footer__bar') ? once('.footer__main', 'top 85%') : once(el, 'top 92%');
+    gsap.fromTo(el, { '--draw': 0 }, { '--draw': 1, duration: 0.8, ease: 'power2.inOut', scrollTrigger: trig });
   });
 
   /* images slide in from the left (x -40), text blocks rise 30 */
@@ -257,12 +256,8 @@ document.fonts.ready.then(() => {
   /* press band fades up */
   gsap.from('.press', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', scrollTrigger: once('.press') });
 
-  /* office map: text rises, map slides in from the left */
-  gsap.from('.office__info > *', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08, scrollTrigger: once('.office') });
-  gsap.from('.office__map', { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: once('.office') });
-
   /* footer bar sits at the very bottom, so it is triggered by the footer block above it (it may never reach 92%) */
-  gsap.from('.footer__bar p', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, scrollTrigger: once('.office', 'top 70%') });
+  gsap.from('.footer__bar p', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, scrollTrigger: once('.footer__main', 'top 85%') });
 
   /* trip cards: title, price, image from the left, details one by one, then the button scales in */
   gsap.utils.toArray('.card').forEach((card) => {
