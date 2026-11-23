@@ -2,22 +2,22 @@ import { geoMercator, geoPath } from 'd3-geo';
 import { feature, mesh } from 'topojson-client';
 import world from 'world-atlas/countries-110m.json';
 
-// Cities Fancyellow runs tours to: [lon, lat, size]
+// Places Chouchou Tours has taken travellers to (from the reports listed in src/trips.js): [lon, lat, size]
 const cities = [
-  [3.06, 36.75, 12], // Algiers
-  [6.61, 36.36, 10], // Constantine
-  [-0.64, 35.7, 7],  // Oran
-  [-1.32, 34.88, 6], // Tlemcen
-  [5.08, 36.75, 6],  // Bejaia
-  [7.77, 36.9, 6],   // Annaba
-  [6.47, 35.48, 7],  // Timgad
+  [3.06, 36.75, 12], // Algiers (base, Birkhadem)
+  [2.45, 36.6, 7],   // Tipaza
+  [4.05, 36.71, 6],  // Kabylie (Tizi Ouzou)
+  [5.08, 36.75, 7],  // Bejaia, Gouraya park
+  [5.41, 36.19, 6],  // Setif
   [5.74, 36.32, 6],  // Djemila
-  [2.45, 36.6, 6],   // Tipasa
-  [3.67, 32.49, 9],  // Ghardaia
-  [-1.64, 30.12, 7], // Taghit
-  [0.23, 29.26, 7],  // Timimoun
-  [9.48, 24.55, 9],  // Djanet
-  [5.52, 22.79, 8],  // Tamanrasset
+  [6.61, 36.36, 9],  // Constantine
+  [6.17, 35.56, 6],  // Batna
+  [6.47, 35.48, 7],  // Timgad
+  [6.22, 35.06, 6],  // Ghoufi canyon
+  [5.73, 34.85, 7],  // Biskra
+  [4.18, 35.21, 6],  // Bou Saada
+  [3.67, 32.49, 8],  // Ghardaia, M'Zab
+  [0.23, 29.26, 8],  // Timimoun
 ];
 
 export function drawMap(canvas) {

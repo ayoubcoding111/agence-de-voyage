@@ -1,4 +1,4 @@
-# Fancyellow site: design system
+# Chouchou Tours site: design system
 
 The single source of truth for how this site looks, moves and is written. Follow it for every change, new section or new page. If something here and the code disagree, the code in `src/style.css` wins; then update this file.
 
@@ -10,10 +10,10 @@ The layout, type scale and motion were matched against a reference travel site (
 
 ## 1. Brand
 
-- Client: **Fancyellow**, Algiers travel agency and tour operator (fancyalgeria.com). Real client, real content.
+- Agency: **Chouchou Tours**, travel agency in Birkhadem, Algiers, with no website of its own. This homepage is a demo made to propose them a site. Real agency, real public facts only.
 - Voice: calm, factual, warm. Short sentences. No hype, no exclamation marks except the one existing "Discover your next adventure!".
-- Never invent facts, numbers, reviews or staff. Real facts available: Trustpilot 4.8 from 58 reviews; founder Omar Elfarouk Zahafi; motto "With endless happiness & endless discovery, everyone should be able to travel."; prices and itineraries in `src/trips.js` and `src/main.js` (from fancyalgeria.com, Nov 2026). Unknown prices say "on request".
-- Contacts: office +213 23 69 84 41, Omar / WhatsApp +213 542 84 06 82, reservation@fancyellow.com, 20 avenue Abdelkader (ex rue Dujonchay), downtown Algiers. Social: facebook.com/FancYellow, instagram.com/fancyellow_travel_algeria, x.com/FancyellowTrvl.
+- Never invent facts, numbers, reviews or staff. Real facts available (checked Nov 2026): Google Maps 4.4 from 137 reviews; Facebook 174.7K followers (page since Apr 2015), 88% recommend from 65 reviews; TikTok 19.7K followers. Offer in their own words: excursions, organised trips, private guided visits, circuits à la carte anywhere in Algeria, national guide, 9-seat vehicle, day visits, guesthouse and seasonal rental in Algiers. Trips reported by visa-algerie.com (Apr 2025, Nov 2025, Feb 2026, Aug 2026) are summarised in `src/trips.js`. The director is known as "Chouchou"; her full name is not published, so never print one. Prices are not published: every price says "On request".
+- Contacts: phone and WhatsApp +213 540 27 15 14, chouchoutours@gmail.com, Birkhadem, Algiers (Google Maps place "Chouchou Tours"). Social: facebook.com/chouchoutours, tiktok.com/@chouchoutours. No Instagram or X found.
 - No em dashes in copy. No emoji.
 
 ## 2. Colour
@@ -69,14 +69,14 @@ All Inter. Letter-spacing is always in **em** (so it scales with the text; never
 
 ## 5. Components
 
-- **Logo mark**: 8 rounded arms (`#mark` symbol in `index.html`), always next to "Fancyellow" in 600 weight, also used as the section-label bullet and as the separator in the footer bar.
+- **Logo mark**: 8 rounded arms (`#mark` symbol in `index.html`), always next to "Chouchou Tours" in 600 weight, also used as the section-label bullet and as the separator in the footer bar.
 - **Nav**: fixed, 4.5rem tall, transparent with backdrop blur, 1px bottom rule and vertical rules beside the logo cell and "Explore" cell. Links 0.875rem/600. The link of the section in view turns accent orange (scroll-spy). Phones: logo + two-line burger (19px and 12px lines).
 - **Buttons**: pill (`border-radius: 5rem`). Primary white with `--bg-2` text, 3.3125rem tall; secondary `--bg-2` with white text, 2.5625rem tall, full width in cards. Label left, the small pinched-square icon (`#pinch`) right. Hover: background turns `--accent` in 0.2s.
 - **Section label**: asterisk mark + text, top-left of a section.
-- **Trip card**: text column (title, "from €price", 4 meta rows with thin line icons, rating row with 5 orange stars, "Show Details" button) beside a photo, 2 cards per row on desktop with 1px dividers. Phones: title, price, photo, meta, button, stacked.
-- **Trip details panel** (`.trip`): slides in from the right (0.6s power3.out), scrim with blur, gallery (main photo + 3), title, place, intro, price strip, itinerary (day label in accent), included (orange dots), notes (outlined dots), Book by Email + WhatsApp buttons. Closes with the round x, the scrim, or Escape. Data in `src/trips.js`.
-- **People photos**: hovering reveals a `--panel` overlay with the place, a sentence, and the Fancyellow tour that goes there (0.2s linear fade). Portraits are stock photos captioned by place, never presented as staff.
-- **Press**: logos are white marks on transparency (`public/photos/press/white/`), shown at about 0.72 opacity, 1 on hover. "As Featured In" band scrolls continuously (55s loop, pauses on hover, static grid if reduced motion). Only mouse hover or keyboard focus-visible pauses it; a link that kept focus after a click must not. Convert any new logo with `node cook/harness/whitelogo.mjs in.png out.png [auto|dark|inv]`.
+- **Trip card**: text column (title, "price On request", 3 meta rows with thin line icons, "Show Details" button) beside a photo, 2 cards per row on desktop with 1px dividers. Phones: title, price, photo, meta, button, stacked.
+- **Trip details panel** (`.trip`): slides in from the right (0.6s power3.out), scrim with blur, gallery (main photo + 3), title, place, intro, price strip, route (stop label in accent, hidden when a trip has no route), included (orange dots), notes (outlined dots), Book by Email + WhatsApp buttons. Closes with the round x, the scrim, or Escape. Data in `src/trips.js`.
+- **People photos**: hovering reveals a `--panel` overlay with the place, a sentence, and the Chouchou Tours trip that goes there (0.2s linear fade). Portraits are stock photos captioned by place, never presented as staff.
+- **Press**: removed. The "As Featured In" band and the press logos in About were the previous client's own coverage. Do not bring them back unless the agency has its own press. The logo files stay in `public/photos/press/` for now.
 - **Map** (destinations): d3-geo canvas, land `#10242a` on the page colour, faint borders, orange city dots that pop in and pulse.
 
 ## 6. Photography

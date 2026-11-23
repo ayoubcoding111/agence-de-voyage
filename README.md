@@ -1,6 +1,6 @@
-# Fancyellow homepage
+# Agence de voyage: Chouchou Tours homepage
 
-Homepage for Fancyellow, an Algiers travel agency and tour operator running private tours across Algeria.
+Demo homepage for **Chouchou Tours**, a travel agency in Birkhadem, Algiers, that runs private guided visits, day trips and circuits à la carte across Algeria. The agency has no website; this page is a proposal made for them. It is not their official site and is not affiliated with them.
 
 Stack: Vite, vanilla JS, GSAP with ScrollTrigger, d3-geo for the map. Font: Inter.
 
@@ -23,12 +23,17 @@ Add `?clean` to the URL for the variant without step counters, small section lab
 
 ## Content
 
-Trips, prices, contact details and the 4.8 / 58 reviews Trustpilot figure come from Fancyellow's own site and Trustpilot profile (November 2026). Prices marked "on request" were not published.
+Every fact comes from a public source, checked in November 2026:
+- The agency's Facebook page (facebook.com/chouchoutours) and TikTok bio (tiktok.com/@chouchoutours): the offer, the 9-seat vehicle, the guesthouse and rental, follower counts.
+- Its Google Maps listing: the Birkhadem address and the 4.4 rating from 137 reviews.
+- visa-algerie.com reports on her trips (April 2025, November 2025, February 2026, August 2026): the trips and routes in `src/main.js` and `src/trips.js`.
 
-To check with the client before launch:
-- Which office address is current (the site and Trustpilot show different ones). The map and maps links search for "20 avenue Abdelkader, Algiers", which Google places at 20 Av. Ziar Abdelkader, Bologhine; replace the query in index.html with the client's own Google Maps link once confirmed.
-- Real photos of the team and guides. The portraits in the "People of Algeria" section are stock photos captioned by place, not staff.
-- Djanet trip details and price.
+Prices are not published, so every trip says "On request". Ratings and follower counts change; update them before showing the page.
+
+To check with the agency before launch:
+- Prices, trip lengths and what each trip includes.
+- Whether they want English, French or both (their clients and posts are mostly French).
+- Real photos of their trips and of Chouchou. The portraits in the "People of Algeria" section are stock photos captioned by place, not staff.
 
 ## Photos
 

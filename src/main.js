@@ -20,16 +20,20 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }));
 }
 
-/* ---------- featured trips (real Fancyellow offer, EUR per person) ---------- */
-// From fancyalgeria.com trip pages (Nov 2026). Price = solo; `who` = price per person when travelling in two.
+/* ---------- featured trips (real Chouchou Tours offer) ---------- */
+// From the agency's Facebook and TikTok pages and visa-algerie.com reports on her trips (checked Nov 2026).
+// Prices are not published, so every trip says "On request". `img` is a file in /photos/web/, or a path under /photos/.
 const trips = [
-  { title: '5 Days: Algiers,<br>Constantine & Tipasa', price: '€580', place: 'Algiers, Constantine, Cherchell, Tipasa', when: 'No Algiers tour on Fridays', len: '(5 days, 4 nights)', who: '€425 each for two travellers', img: 'card-4' },
-  { title: '7 Days: Roman Algeria,<br>Djemila & Timgad', price: '€880', place: 'Algiers, Djemila, Timgad, Constantine', when: 'Book 1 week ahead', len: '(7 days, 6 nights)', who: '€635 each for two travellers', img: 'card-5' },
-  { title: 'Ghardaia & the<br>M\'Zab Valley', price: '€650', place: 'Ghardaia, Beni Isguen, Sebseb oasis', when: 'Flight, hotel and guide', len: '(4 days)', who: '€420 each for two travellers', img: 'card-3' },
-  { title: 'Tamanrasset &<br>the Assekrem', price: '€680', place: 'Tamanrasset, Assekrem, Hoggar', when: 'Departs Saturday or Tuesday', len: '(3 days)', who: '€550 each for two travellers', img: 'card-7' },
-  { title: 'Djanet: the<br>Tadrart Rouge', price: '€1,050', place: 'Djanet, Tadrart, Tin Merzouga', when: 'Camping and 4x4, book 5 days ahead', len: '(7 days)', who: '€850 each for two travellers', img: 'card-1' },
-  { title: 'Algiers City Tour:<br>Casbah & the Bay', price: '€120', place: 'Algiers', when: 'Saturday to Thursday', len: '(8 hours)', who: 'Private guide and driver', img: 'card-6' },
+  { title: 'Tour of Algeria:<br>10 Cities in 3 Weeks', price: 'On request', from: false, place: 'Casbah, Tipaza, Djemila, Timgad, M\'Zab, Timimoun', when: 'Dates planned with you', len: '(3 weeks)', who: 'Ran in 2024 for four travellers', img: 'card-2' },
+  { title: 'Algiers, the Casbah<br>& Tipaza', price: 'On request', from: false, place: 'Algiers, Casbah, Tipaza, Royal Mausoleum', when: 'Airport pickup on arrival', len: '', who: 'Guesthouse with a family meal', img: 'card-5' },
+  { title: 'Family Trip: Coast,<br>Aures & Desert', price: 'On request', from: false, place: 'Algiers, Tipaza, Béjaïa, Sétif, Constantine, Batna, Biskra, Bou Saâda', when: 'Made to measure', len: '', who: 'Ends with a 4x4 desert safari', img: 'card-4' },
+  { title: 'Day Visits:<br>Algiers & Around', price: 'On request', from: false, place: 'Algiers and around', when: 'Any day, on request', len: '(1 day)', who: 'Guide, driver and 9-seat vehicle', img: 'card-6' },
+  { title: 'Circuits à la Carte,<br>Anywhere in Algeria', price: 'On request', from: false, place: 'Cities, coast, mountains or desert', when: 'You set the dates', len: '', who: 'For families and small groups', img: 'card-3' },
+  { title: 'Guesthouse & Rental<br>in Algiers', price: 'On request', from: false, place: 'Algiers', when: 'Seasonal rental', len: '', who: 'A base for your visits', img: 'trips/algiers-3' },
 ];
+const tripImg = (t) => (t.img.includes('/') ? `/photos/${t.img}.jpg` : `/photos/web/${t.img}.jpg`);
+const BOOK_EMAIL = 'chouchoutours@gmail.com';
+const WHATSAPP = 'https://api.whatsapp.com/send?phone=213540271514';
 
 const ico = {
   pin: '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 13s4.2-4 4.2-7.2A4.2 4.2 0 0 0 2.8 5.8C2.8 9 7 13 7 13z"/><circle cx="7" cy="5.8" r="1.5"/></svg>',
@@ -46,13 +50,12 @@ grid.innerHTML = trips.map((t, i) => `
       <p class="card__price">${t.from === false ? '<small>price</small>' : '<small>from</small>'}<b>${t.price}</b></p>
       <div class="card__meta">
         <div class="card__row"><span>${t.place}</span>${ico.pin}</div>
-        <div class="card__row"><span>${t.when} <em>${t.len}</em></span>${ico.cal}</div>
+        <div class="card__row"><span>${t.when}${t.len ? ` <em>${t.len}</em>` : ''}</span>${ico.cal}</div>
         <div class="card__row"><span>${t.who}</span>${ico.ppl}</div>
-        <div class="card__row"><span>Rated 4.8 <em>on Trustpilot</em></span><span class="stars">${ico.star.repeat(5)}</span></div>
       </div>
       <button class="btn btn--secondary" type="button" data-trip="${i}" aria-haspopup="dialog">Show Details <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></button>
     </div>
-    <div class="card__img"><img src="/photos/web/${t.img}.jpg" alt="" loading="lazy" decoding="async" /></div>
+    <div class="card__img"><img src="${tripImg(t)}" alt="" loading="lazy" decoding="async" /></div>
   </article>`).join('');
 
 /* ---------- trip details panel ---------- */
@@ -61,23 +64,23 @@ const panelBody = panel.querySelector('.trip__body');
 let lastFocus = null;
 function openTrip(i) {
   const t = trips[i], d = tripDetails[i];
-  const imgs = [`/photos/web/${t.img}.jpg`, ...d.gallery.map((g) => `/photos/trips/${g}.jpg`)];
+  const imgs = [tripImg(t), ...d.gallery.map((g) => `/photos/trips/${g}.jpg`)];
   panelBody.innerHTML = `
     <div class="trip__gallery">${imgs.map((src, k) => `<figure class="trip__shot${k === 0 ? ' is-main' : ''}"><img src="${src}" alt="" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="this.closest('figure').remove()" /></figure>`).join('')}</div>
     <div class="trip__text">
       <h2 class="trip__title" id="trip-title">${t.title.replace(/<br>/g, ' ')}</h2>
-      <p class="trip__place">${t.place} <em>${t.len}</em></p>
+      <p class="trip__place">${t.place}${t.len ? ` <em>${t.len}</em>` : ''}</p>
       <p class="trip__intro">${d.intro}</p>
       <div class="trip__prices">${d.prices.map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('')}</div>
-      <h3 class="trip__h">Itinerary</h3>
-      <ol class="trip__days">${d.days.map(([k, v]) => `<li><b>${k}</b><span>${v}</span></li>`).join('')}</ol>
+      ${d.days.length ? `<h3 class="trip__h">Route</h3>
+      <ol class="trip__days">${d.days.map(([k, v]) => `<li><b>${k}</b><span>${v}</span></li>`).join('')}</ol>` : ''}
       <h3 class="trip__h">Included</h3>
       <ul class="trip__list">${d.included.map((x) => `<li>${x}</li>`).join('')}</ul>
       <h3 class="trip__h">Good to know</h3>
       <ul class="trip__list trip__list--notes">${d.notes.map((x) => `<li>${x}</li>`).join('')}</ul>
       <div class="trip__cta">
-        <a class="btn btn--primary" href="mailto:reservation@fancyellow.com?subject=${encodeURIComponent('Trip enquiry: ' + t.title.replace(/<br>/g, ' '))}">Book by Email <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
-        <a class="btn btn--secondary" href="https://api.whatsapp.com/send?phone=213542840682">Ask on WhatsApp <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+        <a class="btn btn--primary" href="mailto:${BOOK_EMAIL}?subject=${encodeURIComponent('Trip enquiry: ' + t.title.replace(/<br>/g, ' '))}">Book by Email <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+        <a class="btn btn--secondary" href="${WHATSAPP}">Ask on WhatsApp <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
       </div>
     </div>`;
   lastFocus = document.activeElement;
@@ -253,8 +256,6 @@ document.fonts.ready.then(() => {
     gsap.from(el, { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') });
   });
 
-  /* press band fades up */
-  gsap.from('.press', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', scrollTrigger: once('.press') });
 
   /* footer bar sits at the very bottom, so it is triggered by the footer block above it (it may never reach 92%) */
   gsap.from('.footer__bar p', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, scrollTrigger: once('.footer__main', 'top 85%') });

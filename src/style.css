@@ -243,7 +243,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .nav__links a, .nav__cta, .footer__links a, .footer__contact a, .footer__legal a, .footer__made a { transition: color 0.2s; }
 .footer__links a i { transition: color 0.2s; }
 .footer__links a:hover i { color: var(--accent); }
-/* people: hovering a cell reveals a panel about the place and the Fancyellow tour that goes there */
+/* people: hovering a cell reveals a panel about the place and the Chouchou Tours trip that goes there */
 .guide__info { position: absolute; inset: 0; z-index: 2; background: var(--panel); padding: 2.5rem; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.2s linear; pointer-events: none; }
 .guide:hover .guide__info, .guide:focus-within .guide__info { opacity: 1; }
 .guide__loc { display: flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; line-height: 1.1375rem; font-weight: 400; letter-spacing: -0.0429em; }
