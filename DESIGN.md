@@ -65,7 +65,7 @@ All Inter. Letter-spacing is always in **em** (so it scales with the text; never
 - Section rhythm: 5rem top padding on sections, dividers as full-width 1px `--line` rules (`.line-top`), column dividers as 1px vertical rules.
 - Images: `object-fit: cover`, no rounded corners, no shadows. Aspect ratios are kept on desktop (`aspect-ratio`), fixed heights on phones.
 - Breakpoint: one, at **767px** (phone layout below). Everything else scales.
-- Section order: hero, Tours (3 tiles), About (photo, lead, 2 stats, press row), As Featured In band, Featured Trips (6 cards), Build Your Trip (full-bleed photo + 4 steps), Explore by Destination (map), How It Works (4 icons), People of Algeria (4 photos), footer (panorama, logo, links, contacts), copyright bar.
+- Section order: hero, Tours (3 tiles), About (photo, lead, 2 stats), Featured Trips (6 cards), Build Your Trip (full-bleed photo + 4 steps), Explore by Destination (map), How It Works (4 icons), People of Algeria (4 photos), footer (panorama, logo, links, contacts), bottom bar with the concept notice ("Concept homepage made for Chouchou Tours. Not their official website."; keep it, and the `noindex` meta tag, until the agency takes the site).
 
 ## 5. Components
 
