@@ -2,7 +2,7 @@ import { geoMercator, geoPath } from 'd3-geo';
 import { feature, mesh } from 'topojson-client';
 import world from 'world-atlas/countries-110m.json';
 
-// Places Chouchou Tours has taken travellers to (from the reports listed in src/trips.js): [lon, lat, size]
+// Places Atlas has taken travellers to (from the reports listed in src/trips.js): [lon, lat, size]
 const cities = [
   [3.06, 36.75, 12], // Algiers (base, Birkhadem)
   [2.45, 36.6, 7],   // Tipaza

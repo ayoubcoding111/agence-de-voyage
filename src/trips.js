@@ -1,4 +1,4 @@
-// Trip details for Chouchou Tours, in the same order as `trips` in main.js.
+// Trip details for Atlas, in the same order as `trips` in main.js.
 // Sources (checked November 2026): the agency's Facebook page (facebook.com/chouchoutours), its TikTok bio
 // (tiktok.com/@chouchoutours) and visa-algerie.com reports on her trips (Apr 2025, Nov 2025, Feb 2026, Aug 2026).
 // Prices are not published, so every trip is "On request". Never add a stop, price or service that is not in a source.
@@ -8,7 +8,7 @@ const ON_REQUEST = [['Price', 'On request']];
 export const tripDetails = [
   {
     id: 'tour-of-algeria',
-    intro: 'The big one: a three-week road trip across Algeria, through 10 cities and 5 UNESCO World Heritage sites, driven by Chouchou herself, more than 5,000 km.',
+    intro: 'The big one: a three-week road trip across Algeria, through 10 cities and 5 UNESCO World Heritage sites, driven by our own guide, more than 5,000 km.',
     prices: ON_REQUEST,
     days: [
       ['North', 'The Casbah of Algiers, the Roman ruins of Tipaza and villages in Kabylie.'],
@@ -18,7 +18,7 @@ export const tripDetails = [
       ['South', 'The M\'Zab valley, Biskra and the desert at Timimoun.'],
     ],
     included: ['A national guide who drives the whole route', 'A 9-seat vehicle', 'Guesthouse stays and home cooking'],
-    notes: ['Chouchou ran this trip in 2024 for four travellers from France.', 'She calls her trips cultural and solidarity tourism.', 'Dates and stops are planned with you.'],
+    notes: ['Atlas ran this trip in 2024 for four travellers from France.', 'Atlas calls its trips cultural and solidarity tourism.', 'Dates and stops are planned with you.'],
     gallery: ['roman-3', 'constantine-1', 'ghardaia-1'],
   },
   {
@@ -31,7 +31,7 @@ export const tripDetails = [
       ['Tipaza', 'The Roman ruins by the sea and the Royal Mausoleum of Mauretania.'],
     ],
     included: ['Airport pickup', 'Guesthouse stay with a family meal', 'Guided visits'],
-    notes: ['Based on a stay Chouchou ran in 2025. The length is planned with you.'],
+    notes: ['Based on a stay Atlas ran in 2025. The length is planned with you.'],
     gallery: ['algiers-2', 'tipasa-1', 'tipasa-2'],
   },
   {
@@ -45,7 +45,7 @@ export const tripDetails = [
       ['Desert gates', 'Biskra and Bou Saâda, with a 4x4 desert safari.'],
     ],
     included: ['A national guide and driver', 'A 9-seat vehicle', 'A 4x4 desert safari'],
-    notes: ['Chouchou ran this route for a family from France in early 2026.'],
+    notes: ['Atlas ran this route for a family from France in early 2026.'],
     gallery: ['constantine-2', 'tipasa-3', 'algiers-1'],
   },
   {
@@ -62,12 +62,12 @@ export const tripDetails = [
   },
   {
     id: 'a-la-carte',
-    intro: 'Tell Chouchou where you want to go and she builds the circuit: cities, Roman sites, mountains or desert, anywhere in Algeria.',
+    intro: 'Tell Atlas where you want to go and we build the circuit: cities, Roman sites, mountains or desert, anywhere in Algeria.',
     prices: ON_REQUEST,
     days: [
       ['01', 'You send the places, the dates and the pace.'],
-      ['02', 'Chouchou plans the route and the stops.'],
-      ['03', 'She guides and drives you in a 9-seat vehicle.'],
+      ['02', 'Atlas plans the route and the stops.'],
+      ['03', 'Our guide drives you in a 9-seat vehicle.'],
     ],
     included: ['A national guide', 'A 9-seat vehicle', 'A route planned with you'],
     notes: ['Ask on WhatsApp for dates and prices.'],

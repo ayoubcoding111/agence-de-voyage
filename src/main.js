@@ -20,7 +20,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }));
 }
 
-/* ---------- featured trips (real Chouchou Tours offer) ---------- */
+/* ---------- featured trips (real Atlas offer) ---------- */
 // From the agency's Facebook and TikTok pages and visa-algerie.com reports on her trips (checked Nov 2026).
 // Prices are not published, so every trip says "On request". `img` is a file in /photos/web/, or a path under /photos/.
 const trips = [
@@ -32,7 +32,7 @@ const trips = [
   { title: 'Guesthouse & Rental<br>in Algiers', price: 'On request', from: false, place: 'Algiers', when: 'Seasonal rental', len: '', who: 'A base for your visits', img: 'trips/algiers-3' },
 ];
 const tripImg = (t) => (t.img.includes('/') ? `/photos/${t.img}.jpg` : `/photos/web/${t.img}.jpg`);
-const BOOK_EMAIL = 'chouchoutours@gmail.com';
+const PHONE = 'tel:+213540271514';
 const WHATSAPP = 'https://api.whatsapp.com/send?phone=213540271514';
 
 const ico = {
@@ -79,8 +79,8 @@ function openTrip(i) {
       <h3 class="trip__h">Good to know</h3>
       <ul class="trip__list trip__list--notes">${d.notes.map((x) => `<li>${x}</li>`).join('')}</ul>
       <div class="trip__cta">
-        <a class="btn btn--primary" href="mailto:${BOOK_EMAIL}?subject=${encodeURIComponent('Trip enquiry: ' + t.title.replace(/<br>/g, ' '))}">Book by Email <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
-        <a class="btn btn--secondary" href="${WHATSAPP}">Ask on WhatsApp <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+        <a class="btn btn--primary" href="${WHATSAPP}&text=${encodeURIComponent('Trip enquiry: ' + t.title.replace(/<br>/g, ' '))}">Book on WhatsApp <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
+        <a class="btn btn--secondary" href="${PHONE}">Call Us <svg class="btn__dot" viewBox="0 0 10 10"><use href="#pinch" /></svg></a>
       </div>
     </div>`;
   lastFocus = document.activeElement;

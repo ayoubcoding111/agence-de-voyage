@@ -1,6 +1,6 @@
-# Agence de voyage: Chouchou Tours homepage
+# Agence de voyage: Atlas homepage
 
-Concept homepage for **Chouchou Tours**, a travel agency in Birkhadem, Algiers, that runs private guided visits, day trips and circuits à la carte across Algeria. The agency has no website, so this page was made as a proposal for them. It is not their official site and is not affiliated with them. The live page says so in its footer and asks search engines not to index it.
+Concept homepage for **Atlas**, a travel agency in Birkhadem, Algiers, that runs private guided visits, day trips and circuits à la carte across Algeria. The agency has no website, so this page was made as a proposal for them. It is not their official site and is not affiliated with them. The live page says so in its footer and asks search engines not to index it.
 
 Stack: Vite, vanilla JS, GSAP with ScrollTrigger, d3-geo for the map. Font: Inter.
 
@@ -12,7 +12,7 @@ Stack: Vite, vanilla JS, GSAP with ScrollTrigger, d3-geo for the map. Font: Inte
 "Algeria" sits between the mountains and the foreground of a Hoggar sunset.
 
 ### One road trip
-Chouchou's three-week tour of Algeria in numbers, with desert, city and Roman-site cards.
+Atlas's three-week tour of Algeria in numbers, with desert, city and Roman-site cards.
 
 ![One road trip, three weeks, 10 cities and 5 UNESCO sites](docs/screenshots/02-road-trip.jpg)
 
@@ -68,7 +68,7 @@ Prices are not published, so every trip says "On request". Ratings and follower 
 To check with the agency before launch:
 - Prices, trip lengths and what each trip includes.
 - Whether they want English, French or both (their clients and posts are mostly French).
-- Real photos of their trips and of Chouchou. The portraits in the "People of Algeria" section are stock photos captioned by place, not staff.
+- Real photos of their trips and of the guide. The portraits in the "People of Algeria" section are stock photos captioned by place, not staff.
 - If they take the site: remove the `noindex` tag in `index.html` and replace the concept notice in the footer.
 
 ## Photos
