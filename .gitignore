@@ -7,3 +7,5 @@ cook-archive/
 .claude/
 *.log
 public/photos/candidates/
+.vercel
+.env*
